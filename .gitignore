@@ -1,0 +1,14 @@
+# Node.js dependencies
+backend/node_modules/
+frontend/node_modules/
+.env
+.DS_Store
+.vscode/
+dist/
+build/
+.next/
+out/
+coverage/
+backend/.env
+frontend/.env
+
