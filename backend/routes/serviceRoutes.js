@@ -1,10 +1,10 @@
 import express from 'express';
-import { getService, createService, updateService, deleteService ,getServiceById} from '../controllers/serviceController.js';
+import { getService, createService, updateService, deleteService ,getServiceById ,getAllServices} from '../controllers/serviceController.js';
 
 const router = express.Router();
 
 router.route('/')
-  .get(getService)
+  .get(getAllServices)
   .post(createService);
 
 router.route('/:id')

@@ -1,12 +1,12 @@
 import express from "express";
 import { createOrder, getMyOrders, getAllOrders, updateOrderStatus } from "../controllers/orderController.js";
-import { protect, admin } from "../middleware/authMiddleware.js";
+import { protect, adminOnly } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.route("/").post(protect, createOrder).get(protect, admin, getAllOrders);
+router.route("/").post(protect, createOrder).get(protect, adminOnly, getAllOrders);
 router.route("/myorders").get(protect, getMyOrders);
-router.route("/:id/status").put(protect, admin, updateOrderStatus);
+router.route("/:id/status").put(protect, adminOnly, updateOrderStatus);
 
 
 import Razorpay from "razorpay";

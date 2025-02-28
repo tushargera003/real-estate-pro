@@ -11,7 +11,7 @@ export default {
         secondary: '#F97316',
       },
       backgroundImage: {
-        'hero-pattern': "url('/assets/ypd.jpg')", // assets folder mein image daal dena
+        'hero-pattern': "url('/assets/ypd.jpeg')", // assets folder mein image daal dena
       },
     },
   },

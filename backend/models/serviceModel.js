@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const serviceSchema = mongoose.Schema(
+const serviceSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -14,9 +14,15 @@ const serviceSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    document: {
+      type: String, // ✅ Add document field
+    },
+    images: {
+      type: [String], // ✅ Add images field (array of strings)
+    },
     active: {
       type: Boolean,
-      default: true, // New field to manage active/inactive state
+      default: true,
     },
   },
   {

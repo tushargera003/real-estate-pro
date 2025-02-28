@@ -12,7 +12,9 @@ const razorpay = new Razorpay({
 export const createOrder = async (req, res) => {
   try {
     const { customerDetails, cartItems, totalAmount, paymentMethod, paymentId } = req.body;
+    
     const newOrder = new Order({
+      customerDetails:customerDetails,
       user: req.user._id, // Assuming user is authenticated
       services: cartItems.map(item => ({
         service: item.service._id,  // Extracting only the ObjectId
@@ -21,6 +23,7 @@ export const createOrder = async (req, res) => {
         documentUrl: item.document || "",
         price: item.service.price, // Getting price from service object
       })),
+      totalAmount,
       paymentMethod,
       isPaid: !!paymentId,
       paymentId: paymentId || null,
@@ -79,7 +82,7 @@ export const verifyPayment = async (req, res) => {
 // Get all orders (admin)
 export const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate('service user', 'name email cost');
+    const orders = await Order.find().populate('service user', 'name email cost phone');
     res.status(200).json(orders);
   } catch (error) {
     console.error('Error fetching orders:', error);
@@ -90,7 +93,7 @@ export const getAllOrders = async (req, res) => {
 // Get user's orders
 export const getUserOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ user: req.params.userId }).populate('service', 'name cost');
+    const orders = await Order.find({ user: req.params.userId }).populate('service', 'name cost',"email phone");
     res.status(200).json(orders);
   } catch (error) {
     console.error('Error fetching user orders:', error);

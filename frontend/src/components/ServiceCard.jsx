@@ -11,7 +11,7 @@ const ServiceCard = ({ service }) => {
       {/* Service Image */}
       <div className="relative w-full h-40 overflow-hidden rounded-lg">
         <img
-          src={service.images[0] || "https://via.placeholder.com/400x250"}
+          src={service.images[0]}
           alt={service.name}
           className="w-full h-full object-cover rounded-lg shadow-sm"
         />

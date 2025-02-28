@@ -17,10 +17,12 @@ const getService = async (req, res) => {
 // @access  Public
 const createService = async (req, res) => {
   try {
-    const { name, description, price } = req.body;
-    const service = new Service({ name, description, price });
+    const { name, description, price, document, images } = req.body;
+
+    const service = new Service({ name, description, price, document, images }); // ✅ Add document and images fields
     const createdService = await service.save();
     res.status(201).json(createdService);
+
   } catch (error) {
     res.status(400).json({ message: 'Invalid service data' });
   }
@@ -31,14 +33,15 @@ const createService = async (req, res) => {
 // @access  Public
 const updateService = async (req, res) => {
   try {
-    const { name, description, price } = req.body;
+    const { name, description, price, document, images } = req.body;
     const service = await Service.findById(req.params.id);
 
     if (service) {
       service.name = name;
       service.description = description;
       service.price = price;
-
+      service.document = document; // ✅ Update document field
+      service.images = images; // ✅ Update images field
       const updatedService = await service.save();
       res.json(updatedService);
     } else {
@@ -79,5 +82,28 @@ const getServiceById = async (req, res) => {
     res.status(400).json({ message: 'Invalid service ID' });
   }
 };
+const getAllServices = async (req, res) => {
+  try {
+    let { page = 1, limit = 6 } = req.query; // Default pagination
+    page = parseInt(page);
+    limit = parseInt(limit);
 
-export { getService,getServiceById, createService, updateService, deleteService };
+    const totalServices = await Service.countDocuments();
+    const services = await Service.find()
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    res.json({
+      services,
+      totalPages: Math.ceil(totalServices / limit),
+      currentPage: page,
+    });
+  } catch (error) {
+    console.error("Error in getAllServices:", error);  // ✅ Debugging line
+    res.status(500).json({ error: "Error fetching services", details: error.message });
+  }
+};
+
+
+
+export { getService,getServiceById, createService, updateService, deleteService , getAllServices };

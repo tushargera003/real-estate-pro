@@ -9,6 +9,8 @@ import serviceRoutes from "./routes/serviceRoutes.js";
 import uploadRoutes from "./routes/uploads.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import newsletterRoutes from "./routes/newsletterRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -26,7 +28,8 @@ app.use("/api/uploads", uploadRoutes);
 app.use("/api/newsletter", newsletterRoutes);
 // Static folder for uploads
 // app.use("/uploads", express.static("uploads"));
-
+app.use("/api/admin", adminRoutes);
 app.use("/api", contactRoutes);
+app.use("/api/auth", authRoutes);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

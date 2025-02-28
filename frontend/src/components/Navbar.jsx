@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../redux/slices/userSlice";
 import { clearCart } from "../redux/cartSlice";
 
-const Navbar = () => {
+const Navbar = ({ isAdmin }) => {
   const { userInfo } = useSelector((state) => state.user);
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
@@ -124,6 +124,11 @@ const Navbar = () => {
           ) : (
             <Link to="/auth" className="text-gray-700 hover:text-primary">
               Login
+            </Link>
+          )}
+          {isAdmin && (
+            <Link to="/admin" className="text-gray-700 hover:text-blue-600">
+              Dashboard
             </Link>
           )}
         </div>

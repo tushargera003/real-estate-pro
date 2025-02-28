@@ -62,9 +62,17 @@ const ContactUs = () => {
       {/* Contact Info */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
         {[
-          { title: "Phone", icon: <Phone />, content: "+91 7065600010" },
-          { title: "Email", icon: <Mail />, content: "100SOLUTIONS.com" },
-          { title: "Location", icon: <MapPin />, content: "Delhi" },
+          { title: "Phone", icon: <Phone />, content: "+91 70000000000" },
+          {
+            title: "Email",
+            icon: <Mail />,
+            content: "realestatepro@gmail.com",
+          },
+          {
+            title: "Location",
+            icon: <MapPin />,
+            content: "Real Estate Pro Services",
+          },
         ].map((item, index) => (
           <motion.div
             key={index}

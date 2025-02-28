@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const teamMembers = [
   {
-    name: "SAUMYE KHANNA",
+    name: "TUSHAR GERA",
     role: "Founder & CEO",
     image:
       "https://th.bing.com/th/id/OIP.GqGVPkLpUlSo5SmeDogUdwHaHa?w=191&h=191&c=7&r=0&o=5&dpr=1.3&pid=1.7",

@@ -13,6 +13,7 @@ const Auth = () => {
     name: "",
     email: "",
     password: "",
+    phone: "", // Add phone field
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,7 +25,10 @@ const Auth = () => {
     e.preventDefault();
     try {
       const { data } = isLogin
-        ? await loginUser(formData)
+        ? await loginUser({
+            email: formData.email,
+            password: formData.password,
+          })
         : await registerUser(formData);
       localStorage.setItem("userInfo", JSON.stringify({ token: data.token }));
       dispatch(setUser(data));
@@ -82,23 +86,37 @@ const Auth = () => {
           </motion.h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
-              <motion.input
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="w-full p-3 rounded-lg bg-gray-100 text-gray-800 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              />
+              <>
+                <motion.input
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-3 rounded-lg bg-gray-100 text-gray-800 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+                <motion.input
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  type="text"
+                  name="phone"
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-3 rounded-lg bg-gray-100 text-gray-800 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+              </>
             )}
             <motion.input
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
               type="email"
               name="email"
               placeholder="Email Address"
@@ -110,7 +128,7 @@ const Auth = () => {
             <motion.input
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
+              transition={{ duration: 0.5, delay: 1 }}
               type="password"
               name="password"
               placeholder="Password"
@@ -122,7 +140,7 @@ const Auth = () => {
             <motion.button
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1 }}
+              transition={{ duration: 0.5, delay: 1.2 }}
               type="submit"
               className="w-full mt-4 p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-all duration-300"
             >
@@ -132,7 +150,7 @@ const Auth = () => {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.2 }}
+            transition={{ duration: 0.5, delay: 1.4 }}
             className="text-gray-600 text-center mt-4"
           >
             {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}

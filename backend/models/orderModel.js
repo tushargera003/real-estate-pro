@@ -1,7 +1,11 @@
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
-  {
+  {customerDetails:[{
+    fullName: { type: String },
+      email: { type: String },
+      phone: { type: Number },
+  }],
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     services: [
       {
@@ -12,6 +16,7 @@ const orderSchema = new mongoose.Schema(
         price: { type: Number, required: true },
       },
     ],
+    totalAmount: { type: Number, required: true }, 
     paymentMethod: { type: String, required: true },
     isPaid: { type: Boolean, default: false },
     paymentId: { type: String }, 

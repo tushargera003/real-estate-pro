@@ -11,11 +11,10 @@ import {
 import { motion } from "framer-motion";
 
 const Footer = () => {
-  const phoneNumber = "+917065600010";
-  const whatsappNumber = "917065600010";
-  const email = "info@100solutions.in";
-  const address =
-    "VIRASAHEMA FARMS Farm no 8, Inside Rudra Farm A-7, Green Avenue Street, Vasant Kunj, New Delhi 110070";
+  const phoneNumber = "+91700000000000";
+  const whatsappNumber = "9170000000000";
+  const email = "realestatepro@gmail.com";
+  const address = "Real Estate Pro Services";
 
   const [emailInput, setEmailInput] = useState("");
   const [message, setMessage] = useState("");
@@ -65,7 +64,7 @@ const Footer = () => {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-2xl font-bold mb-4 text-orange-400">
-            Your Property Doctor
+            Real Estate Pro
           </h2>
           <p className="text-gray-300">
             Your trusted partner in finding the perfect property-related
@@ -179,7 +178,7 @@ const Footer = () => {
 
       {/* Copyright */}
       <div className="border-t border-gray-700 mt-10 pt-4 text-center text-gray-500">
-        © {new Date().getFullYear()} Your Property Doctor All Rights Reserved.
+        © {new Date().getFullYear()} Real Estate Pro All Rights Reserved.
       </div>
     </footer>
   );

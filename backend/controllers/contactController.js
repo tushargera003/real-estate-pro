@@ -16,3 +16,17 @@ export const submitContactForm = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+export const getAllContactMessages = async (req, res) => {
+  try {
+    if (!req.user || !req.user.isAdmin) {
+      return res.status(403).json({ message: "Access Denied" }); // ❌ Unauthorized request
+    }
+
+
+    const messages = await contact.find().sort({ createdAt: -1 });
+    res.status(200).json(messages);
+  } catch (error) {
+    console.error("Error fetching contact messages:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};

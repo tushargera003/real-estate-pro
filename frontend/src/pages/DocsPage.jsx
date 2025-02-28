@@ -26,16 +26,16 @@ const DocsPage = () => {
           ))}
         </div>
         <p className="text-lg mt-3 text-center italic">
-          “Your Property Doctor - Documenting the Path to Success”
+          “Real Estate Pro - Documenting the Path to Success”
         </p>
       </section>
 
       {/* Introduction Section */}
       <div className="w-full max-w-6xl bg-white shadow-lg rounded-lg p-10 text-center mt-6">
         <h2 className="text-4xl font-bold text-gray-800">
-          Welcome to <span className="text-blue-500">Y</span>
-          <span className="text-orange-500">P</span>
-          <span className="text-blue-500">D</span>
+          Welcome to <span className="text-blue-500">R</span>
+          <span className="text-orange-500">E</span>
+          <span className="text-blue-500">P</span>
         </h2>
         <p className="mt-4 text-gray-600 text-lg">
           The Delhi Development Authority (DDA) was created in 1957 under the
@@ -72,17 +72,17 @@ const DocsPage = () => {
         <h3 className="text-3xl font-semibold text-blue-500">Photo Gallery</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
           <img
-            src="https://yourpropertydoctor.com/assets/WhatsApp%20Image%202025-02-13%20at%2011.56.55.jpeg"
+            src="https://th.bing.com/th?id=OIP.P3sm5urm-H28xcZXRxfaTgHaEz&w=310&h=201&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2"
             alt="Gallery"
             className="rounded-lg shadow-md hover:scale-105 transition-transform w-full h-64 object-cover"
           />
           <img
-            src="https://yourpropertydoctor.com/assets/YPD_HOME_Renowed-Punjabi%20Bagh.jpg"
+            src="https://th.bing.com/th?id=OIP.P3sm5urm-H28xcZXRxfaTgHaEz&w=310&h=201&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2"
             alt="Gallery"
             className="rounded-lg shadow-md hover:scale-105 transition-transform w-full h-64 object-cover"
           />
           <img
-            src="https://yourpropertydoctor.com/assets/YPD_Banner-A-.jpg"
+            src="https://th.bing.com/th?id=OIP.odSm-Lqc9Au-acbkdUboowHaE-&w=304&h=205&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2"
             alt="Gallery"
             className="rounded-lg shadow-md hover:scale-105 transition-transform w-full h-64 object-cover"
           />
