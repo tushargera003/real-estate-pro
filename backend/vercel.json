@@ -11,6 +11,10 @@
       {
         "src": "/(.*)",
         "dest": "/server.js"
+      },
+      {
+        "src": "/services",
+        "dest": "/server.js"
       }
     ]
   }
