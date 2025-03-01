@@ -65,13 +65,13 @@ const ManageUsers = () => {
 
   return (
     <motion.div
-      className="p-6 bg-gray-100 min-h-screen flex flex-col items-center"
+      className="w-full bg-gradient-to-br from-gray-900 to-gray-800 p-8 flex flex-col items-center"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
       <motion.h1
-        className="text-3xl font-bold text-gray-800 mb-6"
+        className="text-4xl font-bold text-purple-400 mb-8"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
@@ -80,59 +80,59 @@ const ManageUsers = () => {
       </motion.h1>
 
       <motion.div
-        className="w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden"
+        className="w-full max-w-4xl bg-gray-800/70 backdrop-blur-lg rounded-lg shadow-lg border border-gray-700/50 overflow-hidden max-h-[500px] overflow-y-auto"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
       >
         <table className="w-full">
           <thead>
-            <tr className="bg-blue-500 text-white text-left">
-              <th className="p-3">Name</th>
-              <th className="p-3">Email</th>
-              <th className="p-3 text-center">Role</th>
-              <th className="p-3 text-center">Actions</th>
+            <tr className="bg-purple-500/10 text-purple-400 text-left">
+              <th className="p-4">Name</th>
+              <th className="p-4">Email</th>
+              <th className="p-4 text-center">Role</th>
+              <th className="p-4 text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user, index) => (
               <motion.tr
                 key={user._id}
-                className={`border-b hover:bg-gray-100 transition duration-300 ${
-                  index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                className={`border-b border-gray-700/50 hover:bg-gray-700/30 transition duration-300 ${
+                  index % 2 === 0 ? "bg-gray-800/50" : "bg-gray-800/70"
                 }`}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
               >
-                <td className="p-3">{user.name}</td>
-                <td className="p-3">{user.email}</td>
-                <td className="p-3 text-center">
+                <td className="p-4 text-purple-300">{user.name}</td>
+                <td className="p-4 text-purple-300">{user.email}</td>
+                <td className="p-4 text-center">
                   {user.isAdmin ? (
                     <motion.button
-                      className="bg-green-500 text-white px-3 py-1 rounded-lg flex items-center gap-2 hover:bg-green-600 transition duration-300"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
+                      className="bg-green-500/20 text-green-400 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-500/30 transition duration-300"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={() => toggleAdmin(user._id)}
                     >
                       <FaUserShield /> Admin
                     </motion.button>
                   ) : (
                     <motion.button
-                      className="bg-gray-500 text-white px-3 py-1 rounded-lg flex items-center gap-2 hover:bg-gray-600 transition duration-300"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
+                      className="bg-gray-500/20 text-gray-400 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-500/30 transition duration-300"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                       onClick={() => toggleAdmin(user._id)}
                     >
                       <FaUserShield /> User
                     </motion.button>
                   )}
                 </td>
-                <td className="p-3 text-center">
+                <td className="p-4 text-center">
                   <motion.button
-                    className="bg-red-500 text-white px-3 py-1 rounded-lg flex items-center gap-2 hover:bg-red-600 transition duration-300"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
+                    className="bg-red-500/20 text-red-400 px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-red-500/30 transition duration-300"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => deleteUser(user._id)}
                   >
                     <FaTrashAlt /> Delete

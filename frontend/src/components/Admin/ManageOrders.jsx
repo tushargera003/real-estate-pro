@@ -47,129 +47,157 @@ const ManageOrders = () => {
   const paginatedOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Manage Orders</h1>
-
+    <div className=" bg-gradient-to-br from-gray-900 to-gray-800 p-5  max-h-[900px] min-h-[500px] overflow-y-auto">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
+        className="max-w-6xl mx-auto"
       >
-        <table className="w-full border border-gray-300 shadow-lg rounded-lg overflow-hidden">
-          <thead>
-            <tr className="bg-gray-800 text-white">
-              <th className="p-3">Order ID</th>
-              <th className="p-3">User</th>
-              <th className="p-3">Email / Phone</th>
-              <th className="p-3">Total Amount</th>
-              <th className="p-3">Status</th>
-              <th className="p-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedOrders.map((order, index) => (
-              <motion.tr
-                key={order._id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
-                className="border-b hover:bg-gray-100 transition"
-              >
-                <td
-                  className="p-3 cursor-pointer text-blue-600 underline hover:text-blue-800"
-                  onClick={() => setSelectedOrder(order)}
+        <h1 className="text-4xl font-bold text-center text-purple-400 mb-8">
+          Manage Orders
+        </h1>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="bg-gray-800/70 backdrop-blur-lg rounded-lg shadow-lg p-6 border border-gray-700/50 "
+        >
+          <table className="w-full">
+            ...
+            <thead>
+              <tr className="bg-gray-700/50 rounded-t-lg">
+                <th className="py-2 px-2 text-left text-purple-400 font-semibold">
+                  Order ID
+                </th>
+                <th className="py-2 px-2 text-left text-purple-400 font-semibold">
+                  User
+                </th>
+                <th className="py-2 px-2 text-left text-purple-400 font-semibold">
+                  Email / Phone
+                </th>
+                <th className="py-2 px-2 text-left text-purple-400 font-semibold">
+                  Total Amount
+                </th>
+                <th className="py-2 px-2 text-left text-purple-400 font-semibold">
+                  Status
+                </th>
+                <th className="py-2 px-2 text-left text-purple-400 font-semibold">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginatedOrders.map((order, index) => (
+                <motion.tr
+                  key={order._id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  className="border-b border-gray-700/50 hover:bg-gray-700/30 transition-colors duration-200"
                 >
-                  {order._id}
-                </td>
-                <td className="p-3">{order.user?.name || "Guest"}</td>
-                <td className="p-3">
-                  {order.user?.phone || order.user?.email || "N/A"}
-                </td>
-                <td className="p-3 font-semibold text-green-600">
-                  ₹{order.totalAmount}
-                </td>
-                <td className="p-3">
-                  <span
-                    className={`px-2 py-1 rounded-full text-sm font-semibold ${
-                      order.status === "Pending"
-                        ? "bg-yellow-200 text-yellow-700"
-                        : order.status === "Processing"
-                        ? "bg-blue-200 text-blue-700"
-                        : order.status === "Completed"
-                        ? "bg-green-200 text-green-700"
-                        : "bg-red-200 text-red-700"
-                    }`}
+                  <td
+                    className="py-2 px-2 text-purple-300 cursor-pointer underline hover:text-purple-400 overflow-hidden text-ellipsis whitespace-nowrap"
+                    onClick={() => setSelectedOrder(order)}
                   >
-                    {order.status}
-                  </span>
-                </td>
-                <td className="p-3">
-                  <select
-                    onChange={(e) => updateStatus(order._id, e.target.value)}
-                    value={order.status}
-                    className="border p-2 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-400"
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="Processing">Processing</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Cancelled">Cancelled</option>
-                  </select>
-                </td>
-              </motion.tr>
-            ))}
-          </tbody>
-        </table>
-      </motion.div>
+                    {order._id}
+                  </td>
+                  <td className="py-2 px-2 text-purple-300 overflow-hidden text-ellipsis whitespace-nowrap">
+                    {order.user?.name || "Guest"}
+                  </td>
+                  <td className="py-2 px-2 text-purple-300 overflow-hidden text-ellipsis whitespace-nowrap">
+                    {order.user?.phone || order.user?.email || "N/A"}
+                  </td>
+                  <td className="py-2 px-2 text-purple-300 font-semibold overflow-hidden text-ellipsis whitespace-nowrap">
+                    ₹{order.totalAmount}
+                  </td>
+                  <td className="py-2 px-2 overflow-hidden text-ellipsis whitespace-nowrap">
+                    <span
+                      className={`px-2 py-1 rounded-full text-sm font-semibold ${
+                        order.status === "Pending"
+                          ? "bg-yellow-500/20 text-yellow-400"
+                          : order.status === "Processing"
+                          ? "bg-blue-500/20 text-blue-400"
+                          : order.status === "Completed"
+                          ? "bg-green-500/20 text-green-400"
+                          : "bg-red-500/20 text-red-400"
+                      }`}
+                    >
+                      {order.status}
+                    </span>
+                  </td>
+                  <td className="py-2 px-2 overflow-hidden text-ellipsis whitespace-nowrap">
+                    <select
+                      onChange={(e) => updateStatus(order._id, e.target.value)}
+                      value={order.status}
+                      className="bg-gray-700/50 border border-gray-600 text-purple-300 p-1 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Processing">Processing</option>
+                      <option value="Completed">Completed</option>
+                      <option value="Cancelled">Cancelled</option>
+                    </select>
+                  </td>
+                </motion.tr>
+              ))}
+            </tbody>
+            ... ...
+          </table>
+        </motion.div>
 
-      <div className="flex justify-center mt-4">
-        <button
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-          className={`px-4 py-2 mx-1 rounded ${
-            currentPage === 1
-              ? "bg-gray-300 cursor-not-allowed"
-              : "bg-blue-500 text-white"
-          }`}
-        >
-          Previous
-        </button>
+        <div className="flex justify-center mt-6">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className={`px-4 py-2 mx-1 rounded ${
+              currentPage === 1
+                ? "bg-gray-700/50 cursor-not-allowed text-gray-500"
+                : "bg-purple-500/50 text-purple-300 hover:bg-purple-500/70"
+            }`}
+          >
+            Previous
+          </button>
 
-        {Array.from(
-          { length: Math.ceil(orders.length / ordersPerPage) },
-          (_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentPage(i + 1)}
-              className={`px-4 py-2 mx-1 rounded ${
-                currentPage === i + 1 ? "bg-blue-700 text-white" : "bg-gray-200"
-              }`}
-            >
-              {i + 1}
-            </button>
-          )
-        )}
-
-        <button
-          onClick={() =>
-            setCurrentPage((prev) =>
-              Math.min(prev + 1, Math.ceil(orders.length / ordersPerPage))
+          {Array.from(
+            { length: Math.ceil(orders.length / ordersPerPage) },
+            (_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentPage(i + 1)}
+                className={`px-4 py-2 mx-1 rounded ${
+                  currentPage === i + 1
+                    ? "bg-purple-500/70 text-purple-100"
+                    : "bg-gray-700/50 text-purple-300 hover:bg-gray-700/70"
+                }`}
+              >
+                {i + 1}
+              </button>
             )
-          }
-          disabled={currentPage === Math.ceil(orders.length / ordersPerPage)}
-          className={`px-4 py-2 mx-1 rounded ${
-            currentPage === Math.ceil(orders.length / ordersPerPage)
-              ? "bg-gray-300 cursor-not-allowed"
-              : "bg-blue-500 text-white"
-          }`}
-        >
-          Next
-        </button>
-      </div>
+          )}
+
+          <button
+            onClick={() =>
+              setCurrentPage((prev) =>
+                Math.min(prev + 1, Math.ceil(orders.length / ordersPerPage))
+              )
+            }
+            disabled={currentPage === Math.ceil(orders.length / ordersPerPage)}
+            className={`px-4 py-2 mx-1 rounded ${
+              currentPage === Math.ceil(orders.length / ordersPerPage)
+                ? "bg-gray-700/50 cursor-not-allowed text-gray-500"
+                : "bg-purple-500/50 text-purple-300 hover:bg-purple-500/70"
+            }`}
+          >
+            Next
+          </button>
+        </div>
+      </motion.div>
 
       <AnimatePresence>
         {selectedOrder && (
           <motion.div
-            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+            className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -179,60 +207,66 @@ const ManageOrders = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="bg-white p-6 rounded-lg shadow-lg w-[400px]"
+              className="bg-gray-800/90 backdrop-blur-lg p-6 rounded-lg shadow-lg w-[400px] border border-gray-700/50"
             >
-              <h2 className="text-xl font-bold mb-3">Order Details</h2>
-              <p>
-                <strong>Order ID:</strong> {selectedOrder._id}
-              </p>
-              <p>
-                <strong>User:</strong> {selectedOrder.user?.name || "Guest"}
-              </p>
-              <p>
-                <strong>Email / Phone:</strong>{" "}
-                {selectedOrder.user?.phone ||
-                  selectedOrder.user?.email ||
-                  "N/A"}
-              </p>
-              <p>
-                <strong>Total Amount:</strong> ₹{selectedOrder.totalAmount}
-              </p>
-              <p>
-                <strong>Status:</strong> {selectedOrder.status}
-              </p>
+              <h2 className="text-2xl font-bold mb-4 text-purple-400">
+                Order Details
+              </h2>
+              <div className="space-y-3 text-purple-300">
+                <p>
+                  <strong>Order ID:</strong> {selectedOrder._id}
+                </p>
+                <p>
+                  <strong>User:</strong> {selectedOrder.user?.name || "Guest"}
+                </p>
+                <p>
+                  <strong>Email / Phone:</strong>{" "}
+                  {selectedOrder.user?.phone ||
+                    selectedOrder.user?.email ||
+                    "N/A"}
+                </p>
+                <p>
+                  <strong>Total Amount:</strong> ₹{selectedOrder.totalAmount}
+                </p>
+                <p>
+                  <strong>Status:</strong> {selectedOrder.status}
+                </p>
 
-              <h3 className="font-bold mt-4">Ordered Services:</h3>
-              <ul className="list-disc pl-5">
-                {selectedOrder.services.map((service, index) => (
-                  <li key={index} className="mt-2">
-                    <p>
-                      <strong>
-                        {service.service && service.service.name
-                          ? service.service.name
-                          : "Unknown Service"}
-                      </strong>
-                    </p>
-                    {service.documentUrl ? (
-                      <a
-                        href={service.documentUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 underline"
-                      >
-                        Document
-                      </a>
-                    ) : (
-                      <span className="text-gray-500">
-                        No document uploaded
-                      </span>
-                    )}
-                  </li>
-                ))}
-              </ul>
+                <h3 className="font-bold mt-4 text-purple-400">
+                  Ordered Services:
+                </h3>
+                <ul className="list-disc pl-5">
+                  {selectedOrder.services.map((service, index) => (
+                    <li key={index} className="mt-2">
+                      <p>
+                        <strong>
+                          {service.service && service.service.name
+                            ? service.service.name
+                            : "Unknown Service"}
+                        </strong>
+                      </p>
+                      {service.documentUrl ? (
+                        <a
+                          href={service.documentUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-400 underline hover:text-blue-300"
+                        >
+                          Document
+                        </a>
+                      ) : (
+                        <span className="text-gray-400">
+                          No document uploaded
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
               <button
                 onClick={() => setSelectedOrder(null)}
-                className="bg-red-500 text-white px-4 py-2 mt-4 rounded hover:bg-red-600 transition"
+                className="bg-red-500/50 text-red-300 px-4 py-2 mt-4 rounded hover:bg-red-500/70 transition"
               >
                 Close
               </button>

@@ -1,6 +1,6 @@
 import express from "express";
 import Newsletter from "../models/Newsletter.js";
-
+import { protect, adminOnly } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 // POST Route to Subscribe
@@ -26,5 +26,12 @@ router.post("/subscribe", async (req, res) => {
     res.status(500).json({ message: "Server Error", error });
   }
 });
-
+router.get("/subscribers", protect, adminOnly, async (req, res) => {
+  try {
+    const subscribers = await Newsletter.find().sort({ subscribedAt: -1 });
+    res.status(200).json(subscribers);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error });
+  }
+});
 export default router;

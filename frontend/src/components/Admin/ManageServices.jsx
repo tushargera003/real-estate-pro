@@ -15,9 +15,18 @@ const ManageServices = () => {
   const [editService, setEditService] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
   const itemsPerPage = 5;
 
+  // Handle File Change Function
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setNewService({ ...newService, document: file });
+    }
+  };
+
+  // Upload Image to Cloudinary
   const uploadImageToCloudinary = async (file) => {
     if (!file) return null;
 
@@ -38,6 +47,7 @@ const ManageServices = () => {
     }
   };
 
+  // Fetch Services
   const fetchServices = async (page = 1) => {
     try {
       const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -68,10 +78,7 @@ const ManageServices = () => {
     fetchServices(currentPage);
   }, [currentPage]);
 
-  const handleFileChange = (e) => {
-    setNewService({ ...newService, document: e.target.files[0] });
-  };
-
+  // Add Service
   const addService = async () => {
     if (
       !newService.name ||
@@ -125,6 +132,7 @@ const ManageServices = () => {
     }
   };
 
+  // Update Service
   const updateService = async () => {
     if (!editService.name || !editService.price || !editService.description) {
       toast.error("All fields are required!");
@@ -179,6 +187,7 @@ const ManageServices = () => {
     }
   };
 
+  // Delete Service
   const deleteService = async (serviceId) => {
     try {
       setLoading(true);
@@ -199,6 +208,7 @@ const ManageServices = () => {
     }
   };
 
+  // Toggle Active Status
   const toggleActiveStatus = async (serviceId, currentStatus) => {
     try {
       setLoading(true);
@@ -231,25 +241,32 @@ const ManageServices = () => {
   };
 
   return (
-    <div className="p-1">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-8">
       <ToastContainer position="top-right" autoClose={3000} />
-      <h1 className="text-2xl font-bold mb-2">Manage Services</h1>
+      <h1 className="text-xl font-bold text-purple-400 mb-3">
+        Manage Services
+      </h1>
 
       {/* Add New Service Form */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-white p-2 rounded-lg shadow-md mb-2"
+        className="bg-gray-800/70 backdrop-blur-lg p-6 rounded-lg shadow-lg mb-3 border border-gray-700/50"
       >
-        <h2 className="text-l font-semibold mb-2">Add New Service</h2>
-        <h6 className="text-s font-serif mb-2">(ALL FIELDS ARE REQUIRED)</h6>
+        <h2 className="text-xl font-semibold text-purple-300 mb-4">
+          Add New Service
+        </h2>
+        <h6 className="text-sm text-gray-400 mb-4">
+          (ALL FIELDS ARE REQUIRED)
+        </h6>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <input
             required
             type="text"
             placeholder="Service Name"
-            className="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-700 bg-gray-700/50 text-white p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
             value={newService.name}
             onChange={(e) =>
               setNewService({ ...newService, name: e.target.value })
@@ -259,7 +276,7 @@ const ManageServices = () => {
             required
             type="text"
             placeholder="Price"
-            className="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-700 bg-gray-700/50 text-white p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
             value={newService.price}
             onChange={(e) =>
               setNewService({ ...newService, price: e.target.value })
@@ -269,26 +286,26 @@ const ManageServices = () => {
             required
             type="text"
             placeholder="Description"
-            className="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border border-gray-700 bg-gray-700/50 text-white p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
             value={newService.description}
             onChange={(e) =>
               setNewService({ ...newService, description: e.target.value })
             }
           />
-          <div className="flex items-center">
+          <div className="flex items-center overflow-hidden">
             <input
               required
               type="file"
               name="file"
-              onChange={handleFileChange}
+              onChange={handleFileChange} // Use handleFileChange here
               accept=".pdf,.jpg,.png"
-              className="border p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border border-gray-700 bg-gray-700/50 text-white p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 w-full"
               key={
                 newService.document ? "file-input-filled" : "file-input-empty"
               }
             />
             {newService.document && (
-              <p className="text-sm text-gray-600 ml-2">
+              <p className="text-sm text-gray-400 ml-2">
                 Selected: {newService.document.name}
               </p>
             )}
@@ -298,8 +315,14 @@ const ManageServices = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={addService}
-          disabled={loading}
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          disabled={
+            loading ||
+            !newService.name ||
+            !newService.price ||
+            !newService.description ||
+            !newService.document
+          }
+          className="mt-4 bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
           {loading ? "Adding..." : "Add Service"}
         </motion.button>
@@ -310,19 +333,22 @@ const ManageServices = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="bg-white p-6 rounded-lg shadow-md"
+        className="bg-gray-800/70 backdrop-blur-lg p-6 rounded-lg shadow-lg border border-gray-700/50 overflow-hidden"
+        style={{ height: "60vh", overflowY: "auto" }} // Fixed height and scrollable
       >
-        <h2 className="text-xl font-semibold mb-4">Services List</h2>
+        <h2 className="text-xl font-semibold text-purple-300 mb-4">
+          Services List
+        </h2>
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead>
-              <tr className="bg-gray-100">
-                <th className="p-2 text-left">Name</th>
-                <th className="p-2 text-left">Price</th>
-                <th className="p-2 text-left">Description</th>
-                <th className="p-2 text-left">Document</th>
-                <th className="p-2 text-left">Active</th>
-                <th className="p-2 text-left">Actions</th>
+              <tr className="bg-gray-700/50">
+                <th className="p-3 text-left text-purple-400">Name</th>
+                <th className="p-3 text-left text-purple-400">Price</th>
+                <th className="p-3 text-left text-purple-400">Description</th>
+                <th className="p-3 text-left text-purple-400">Document</th>
+                <th className="p-3 text-left text-purple-400">Status</th>
+                <th className="p-3 text-left text-purple-400">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -333,62 +359,66 @@ const ManageServices = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 20 }}
-                    className="border-b"
+                    className="border-b border-gray-700/50 hover:bg-gray-700/30 transition duration-300"
                   >
-                    <td className="p-2">{service.name}</td>
-                    <td className="p-2">₹{service.price}</td>
-                    <td className="p-2">{service.description}</td>
-                    <td className="p-2">
+                    <td className="p-3 text-purple-300">{service.name}</td>
+                    <td className="p-3 text-purple-300">₹{service.price}</td>
+                    <td className="p-3 text-purple-300">
+                      {service.description}
+                    </td>
+                    <td className="p-3">
                       {service.document && (
                         <a
                           href={service.document}
                           target="_blank"
-                          className="text-blue-500 hover:underline"
+                          className="text-blue-400 hover:underline"
                         >
                           View
                         </a>
                       )}
                     </td>
-                    <td className="p-2">
+                    <td className="p-3">
                       <button
                         onClick={() =>
                           toggleActiveStatus(service._id, service.active)
                         }
                         disabled={loading}
-                        className={`px-2 py-1 rounded ${
+                        className={`px-3 py-1 rounded ${
                           service.active
-                            ? "bg-green-500 text-white"
-                            : "bg-red-500 text-white"
+                            ? "bg-green-500/20 text-green-400"
+                            : "bg-red-500/20 text-red-400"
                         } disabled:bg-gray-400 disabled:cursor-not-allowed`}
                       >
                         {service.active ? "Active" : "Inactive"}
                       </button>
                     </td>
-                    <td className="p-2 flex items-center gap-2">
-                      <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() => setEditService(service)}
-                        disabled={loading}
-                        className="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
-                      >
-                        Edit
-                      </motion.button>
-                      <motion.button
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() => deleteService(service._id)}
-                        disabled={loading}
-                        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
-                      >
-                        Delete
-                      </motion.button>
+                    <td className="p-3">
+                      <div className="flex justify-center items-center gap-2">
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => setEditService(service)}
+                          disabled={loading}
+                          className="bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded hover:bg-yellow-500/30 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                        >
+                          Edit
+                        </motion.button>
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => deleteService(service._id)}
+                          disabled={loading}
+                          className="bg-red-500/20 text-red-400 px-3 py-1 rounded hover:bg-red-500/30 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                        >
+                          Delete
+                        </motion.button>
+                      </div>
                     </td>
                   </motion.tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="text-center p-3">
+                  <td colSpan="6" className="text-center p-3 text-gray-400">
                     No services found
                   </td>
                 </tr>
@@ -411,13 +441,15 @@ const ManageServices = () => {
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.8 }}
-              className="bg-white p-6 rounded-lg shadow-md w-full max-w-md"
+              className="bg-gray-800/90 backdrop-blur-lg p-6 rounded-lg shadow-lg w-full max-w-md border border-gray-700/50"
             >
-              <h2 className="text-xl font-bold mb-4">Edit Service</h2>
+              <h2 className="text-xl font-bold text-purple-300 mb-4">
+                Edit Service
+              </h2>
               <input
                 required
                 type="text"
-                className="border p-2 w-full rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-700 bg-gray-700/50 text-white p-2 w-full rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 value={editService.name}
                 onChange={(e) =>
                   setEditService({ ...editService, name: e.target.value })
@@ -426,7 +458,7 @@ const ManageServices = () => {
               <input
                 type="text"
                 required
-                className="border p-2 w-full rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-700 bg-gray-700/50 text-white p-2 w-full rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 value={editService.price}
                 onChange={(e) =>
                   setEditService({ ...editService, price: e.target.value })
@@ -435,7 +467,7 @@ const ManageServices = () => {
               <input
                 type="text"
                 required
-                className="border p-2 w-full rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-700 bg-gray-700/50 text-white p-2 w-full rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 value={editService.description}
                 onChange={(e) =>
                   setEditService({
@@ -452,15 +484,21 @@ const ManageServices = () => {
                     document: e.target.files[0],
                   })
                 }
-                className="border p-2 w-full rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="border border-gray-700 bg-gray-700/50 text-white p-2 w-full rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
               <div className="flex gap-2">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={updateService}
-                  disabled={loading}
-                  className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                  disabled={
+                    loading ||
+                    !editService.name ||
+                    !editService.price ||
+                    !editService.description ||
+                    !editService.document
+                  }
+                  className="bg-green-500/20 text-green-400 px-4 py-2 rounded-lg hover:bg-green-500/30 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                   {loading ? "Saving..." : "Save"}
                 </motion.button>
@@ -468,7 +506,7 @@ const ManageServices = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setEditService(null)}
-                  className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition duration-300"
+                  className="bg-gray-500/20 text-gray-400 px-4 py-2 rounded-lg hover:bg-gray-500/30 transition duration-300"
                 >
                   Cancel
                 </motion.button>
@@ -492,14 +530,14 @@ const ManageServices = () => {
           disabled={currentPage === 1 || loading}
           className={`px-4 py-2 rounded-lg ${
             currentPage === 1 || loading
-              ? "bg-gray-300 cursor-not-allowed"
-              : "bg-blue-500 text-white hover:bg-blue-600"
+              ? "bg-gray-700/50 cursor-not-allowed"
+              : "bg-purple-500/20 text-purple-400 hover:bg-purple-500/30"
           }`}
         >
           Previous
         </motion.button>
 
-        <span className="text-lg font-semibold">
+        <span className="text-lg font-semibold text-purple-300">
           Page {currentPage} of {totalPages}
         </span>
 
@@ -512,8 +550,8 @@ const ManageServices = () => {
           disabled={currentPage === totalPages || loading}
           className={`px-4 py-2 rounded-lg ${
             currentPage === totalPages || loading
-              ? "bg-gray-300 cursor-not-allowed"
-              : "bg-blue-500 text-white hover:bg-blue-600"
+              ? "bg-gray-700/50 cursor-not-allowed"
+              : "bg-purple-500/20 text-purple-400 hover:bg-purple-500/30"
           }`}
         >
           Next
