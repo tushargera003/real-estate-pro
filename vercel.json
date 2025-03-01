@@ -1,12 +1,13 @@
 {
     "version": 2,
+    "name": "real-estate-pro",
     "builds": [
       {
         "src": "backend/server.js",
         "use": "@vercel/node"
       },
       {
-        "src": "frontend/",
+        "src": "frontend/package.json",
         "use": "@vercel/static-build",
         "config": {
           "distDir": "frontend/dist"
@@ -17,7 +18,14 @@
       {
         "src": "/api/(.*)",
         "dest": "/backend/server.js"
+      },
+      {
+        "src": "/static/(.*)",
+        "dest": "/frontend/dist/static/$1"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/frontend/dist/index.html"
       }
     ]
   }
-  
