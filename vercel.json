@@ -1,6 +1,6 @@
 {
     "version": 2,
-    "name": "real-estate-pro-gold",
+    "name": "real-estate-pro",
     "builds": [
       {
         "src": "backend/server.js",
