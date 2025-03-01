@@ -7,7 +7,7 @@ const DocsPage = () => {
   return (
     <div className="bg-[#f9f9f9] min-h-screen font-sans flex flex-col items-center w-full">
       {/* Hero Section */}
-      <section className="relative w-full max-w-6xl h-[400px] bg-gradient-to-r from-blue-500 to-purple-500 flex flex-col items-center justify-center text-white rounded-lg shadow-lg mt-6 p-6">
+      <section className="relative w-full max-w-6xl h-[400px] bg-gradient-to-r from-blue-600 to-purple-600 flex flex-col items-center justify-center text-white rounded-2xl shadow-2xl mt-6 p-6 overflow-hidden">
         <div className="flex text-6xl font-extrabold space-x-2">
           {letters.map((letter, index) => (
             <motion.span
@@ -28,10 +28,21 @@ const DocsPage = () => {
         <p className="text-lg mt-3 text-center italic">
           “Real Estate Pro - Documenting the Path to Success”
         </p>
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5, repeat: Infinity, repeatType: "mirror" }}
+        />
       </section>
 
       {/* Introduction Section */}
-      <div className="w-full max-w-6xl bg-white shadow-lg rounded-lg p-10 text-center mt-6">
+      <motion.div
+        className="w-full max-w-6xl bg-white shadow-2xl rounded-2xl p-10 text-center mt-10"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
         <h2 className="text-4xl font-bold text-gray-800">
           Welcome to <span className="text-blue-500">R</span>
           <span className="text-orange-500">E</span>
@@ -42,30 +53,43 @@ const DocsPage = () => {
           provisions of the Delhi Development Act to "promote and secure the
           development of Delhi."
         </p>
-        <button className="mt-6 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full shadow-lg hover:scale-105 transition-transform">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="mt-6 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
+        >
           Know More
-        </button>
-      </div>
+        </motion.button>
+      </motion.div>
 
       {/* What's New Section */}
-      <div className="w-full max-w-6xl bg-white shadow-lg rounded-lg p-10 mt-6">
+      <motion.div
+        className="w-full max-w-6xl bg-white shadow-2xl rounded-2xl p-10 mt-10"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
         <h3 className="text-3xl font-semibold text-orange-500">What's New</h3>
         <ul className="mt-4 space-y-4 text-gray-700 text-lg">
-          <li className="border-l-4 border-orange-500 pl-4">
+          <li className="border-l-4 border-orange-500 pl-4 hover:bg-gray-50 p-3 rounded-lg transition-all">
             Offering of 1000 additional EWS flats in Narela under Sabka Ghar
             Awaas Yojana 2025 - 10.02.2025
             <span className="text-red-500 ml-2 font-bold">New</span>
           </li>
-          <li className="border-l-4 border-blue-500 pl-4">
+          <li className="border-l-4 border-blue-500 pl-4 hover:bg-gray-50 p-3 rounded-lg transition-all">
             Circular removal of one flat from DDA Special Housing Scheme 2025
             e-auction - 04.02.2025
             <span className="text-red-500 ml-2 font-bold">New</span>
           </li>
         </ul>
-        <button className="mt-6 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full shadow-lg hover:scale-105 transition-transform">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="mt-6 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full shadow-lg hover:shadow-xl transition-all"
+        >
           View All
-        </button>
-      </div>
+        </motion.button>
+      </motion.div>
 
       {/* Photo Gallery */}
       <div className="w-full max-w-6xl bg-white shadow-lg rounded-lg p-10 mt-6">

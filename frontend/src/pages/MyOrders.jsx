@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import OrderCard from "../components/OrderCard";
 import { useSelector } from "react-redux";
 import Modal from "react-modal";
+import { FaFilePdf, FaTimes } from "react-icons/fa";
 
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -35,35 +35,81 @@ const MyOrders = () => {
     fetchOrders();
   }, [userInfo]);
 
+  // Format date and time
+  const formatDateTime = (dateString) => {
+    const date = new Date(dateString);
+    return {
+      date: date.toLocaleDateString(),
+      time: date.toLocaleTimeString(),
+    };
+  };
+
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
-      <main className="container mx-auto py-8 px-4">
-        <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
           My Orders
         </h1>
 
         {loading ? (
           <div className="flex justify-center items-center h-64">
-            <p className="text-lg text-gray-600 animate-pulse">Loading...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
           </div>
         ) : orders.length === 0 ? (
           <div className="h-64 flex items-center justify-center">
-            <p className="text-lg text-gray-500">No orders found.</p>
+            <p className="text-lg text-gray-600">No orders found.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {orders
               .slice()
               .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-              .map((order) => (
-                <div
-                  key={order._id}
-                  className="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-all cursor-pointer"
-                  onClick={() => setSelectedOrder(order)}
-                >
-                  <OrderCard order={order} />
-                </div>
-              ))}
+              .map((order) => {
+                const { date, time } = formatDateTime(order.createdAt);
+                return (
+                  <div
+                    key={order._id}
+                    className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all cursor-pointer"
+                    onClick={() => setSelectedOrder(order)}
+                  >
+                    <div className="flex justify-between items-center mb-4">
+                      <span className="text-sm text-gray-500">
+                        {date} at {time}
+                      </span>
+                      <span
+                        className={`px-3 py-1 rounded-full text-sm font-medium ${
+                          order.status === "Completed"
+                            ? "bg-green-100 text-green-600"
+                            : "bg-yellow-100 text-yellow-600"
+                        }`}
+                      >
+                        {order.status}
+                      </span>
+                    </div>
+                    <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                      Order #{order._id.slice(-6).toUpperCase()}
+                    </h2>
+                    <p className="text-gray-600 mb-4">
+                      Total: ₹{order.totalAmount}
+                    </p>
+                    <div className="space-y-2">
+                      {order.services.slice(0, 2).map((service, index) => (
+                        <div key={index} className="text-gray-700">
+                          <p className="font-medium">
+                            {service.service?.name || "N/A"}
+                          </p>
+                          <p className="text-sm">₹{service.price}</p>
+                        </div>
+                      ))}
+                      {order.services.length > 2 && (
+                        <p className="text-sm text-gray-500">
+                          +{order.services.length - 2} more services
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
           </div>
         )}
 
@@ -71,51 +117,97 @@ const MyOrders = () => {
           <Modal
             isOpen={!!selectedOrder}
             onRequestClose={() => setSelectedOrder(null)}
-            className="max-w-lg w-full bg-white p-6 rounded-lg shadow-xl outline-none"
+            className="max-w-2xl w-full bg-white p-8 rounded-xl shadow-2xl outline-none"
             overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4"
           >
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800">
-              Order Details
-            </h2>
-            <div className="space-y-2 text-gray-700">
-              <p>
-                <strong>Order ID:</strong> {selectedOrder._id}
-              </p>
-              <p>
-                <strong>Payment Method:</strong> {selectedOrder.paymentMethod}
-              </p>
-              <p>
-                <strong>Services:</strong>
-              </p>
-              <ul className="list-disc list-inside pl-4 space-y-1">
-                {selectedOrder.services.map((service, index) => (
-                  <li key={index} className="font-medium">
-                    {service.service?.name || "N/A"} - ₹{service.price}
-                  </li>
-                ))}
-              </ul>
-              <p>
-                <strong>Status:</strong>{" "}
-                <span
-                  className={`font-medium px-2 py-1 rounded ${
-                    selectedOrder.status === "Completed"
-                      ? "bg-green-100 text-green-600"
-                      : "bg-yellow-100 text-yellow-600"
-                  }`}
-                >
-                  {selectedOrder.status}
-                </span>
-              </p>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">
+                Order Details
+              </h2>
+              <button
+                onClick={() => setSelectedOrder(null)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <FaTimes className="w-6 h-6" />
+              </button>
             </div>
-            <button
-              onClick={() => setSelectedOrder(null)}
-              className="mt-6 w-full py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
-            >
-              Close
-            </button>
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-gray-500">Order ID</p>
+                  <p className="font-medium text-gray-900">
+                    {selectedOrder._id}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Payment Method</p>
+                  <p className="font-medium text-gray-900">
+                    {selectedOrder.paymentMethod}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Order Date</p>
+                  <p className="font-medium text-gray-900">
+                    {formatDateTime(selectedOrder.createdAt).date} at{" "}
+                    {formatDateTime(selectedOrder.createdAt).time}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Status</p>
+                  <p
+                    className={`font-medium px-3 py-1 rounded-full text-sm ${
+                      selectedOrder.status === "Completed"
+                        ? "bg-green-100 text-green-600"
+                        : "bg-yellow-100 text-yellow-600"
+                    }`}
+                  >
+                    {selectedOrder.status}
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  Services
+                </h3>
+                <div className="space-y-4">
+                  {selectedOrder.services.map((service, index) => (
+                    <div key={index} className="bg-gray-50 p-4 rounded-lg">
+                      <div className="flex justify-between items-center">
+                        <p className="font-medium text-gray-900">
+                          {service.service?.name || "N/A"}
+                        </p>
+                        <p className="text-gray-600">₹{service.price}</p>
+                      </div>
+                      {(service.width > 0 || service.length > 0) && (
+                        <div className="mt-2 text-sm text-gray-600">
+                          <p>
+                            <strong>Dimensions:</strong> {service.width}m x{" "}
+                            {service.length}m
+                          </p>
+                        </div>
+                      )}
+                      {service.documentUrl && (
+                        <div className="mt-2">
+                          <a
+                            href={service.documentUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center text-purple-600 hover:text-purple-800"
+                          >
+                            <FaFilePdf className="mr-2" />
+                            View Document
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </Modal>
         )}
-      </main>
+      </div>
     </div>
   );
 };

@@ -5,8 +5,8 @@ import heroImage from "../assets/ypd.jpeg";
 
 const Hero = () => {
   return (
-    <section className="bg-blue-900 py-20 text-white">
-      <div className="container grid grid-cols-1 md:grid-cols-2 gap-10 items-center  ">
+    <section className="bg-gradient-to-r from-blue-900 to-blue-700 py-20 text-white">
+      <div className="container grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         {/* Text Section */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
@@ -16,7 +16,7 @@ const Hero = () => {
           <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
             Find Real Estate Pro 🏡
           </h1>
-          <p className="text-lg text-gray-300 mt-4">
+          <p className="text-lg text-gray-200 mt-4">
             Explore the best properties with top-notch services tailored to your
             needs.
           </p>

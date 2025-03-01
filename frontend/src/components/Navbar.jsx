@@ -30,22 +30,22 @@ const Navbar = ({ isAdmin }) => {
 
   return (
     <motion.nav
-      className="fixed top-0 w-full z-50 backdrop-blur-lg bg-white/30 shadow-md border-b border-gray-200"
+      className="fixed top-0 w-full z-50 backdrop-blur-lg bg-white/90 shadow-md border-b border-gray-200"
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
     >
-      <div className="container mx-auto flex justify-between items-center py-3 px-6">
+      <div className="container mx-auto flex justify-between items-center py-4 px-6">
         {/* Logo */}
         <Link
           to="/"
-          className="text-2xl font-extrabold text-gray-900 hover:text-primary"
+          className="text-2xl font-extrabold text-gray-900 hover:text-blue-600 transition-all"
         >
           Real Estate Pro
         </Link>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex space-x-8">
+        <div className="hidden md:flex space-x-8 items-center">
           {["Services", "Blogs", "Docs", "About Us", "Contact"].map(
             (item, index) => (
               <Link
@@ -59,7 +59,7 @@ const Navbar = ({ isAdmin }) => {
                     ? "/docspage"
                     : `/${item.toLowerCase().replace(/\s/g, "")}`
                 }
-                className="text-gray-700 hover:text-primary hover:text-lg"
+                className="text-gray-700 hover:text-blue-600 hover:font-medium transition-all"
               >
                 {item}
               </Link>
@@ -68,9 +68,9 @@ const Navbar = ({ isAdmin }) => {
         </div>
 
         {/* Cart & User Profile */}
-        <div className="flex items-center space-x-5">
+        <div className="flex items-center space-x-6">
           <Link to="/cart" className="relative group">
-            <ShoppingCartIcon className="w-7 h-7 text-gray-700 group-hover:scale-110 group-hover:text-primary transition-transform duration-200" />
+            <ShoppingCartIcon className="w-7 h-7 text-gray-700 group-hover:scale-110 group-hover:text-blue-600 transition-all" />
             {totalQuantity > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-1.5 py-0.5">
                 {totalQuantity}
@@ -82,7 +82,7 @@ const Navbar = ({ isAdmin }) => {
           {userInfo ? (
             <Menu as="div" className="relative">
               <Menu.Button className="group">
-                <UserCircleIcon className="w-8 h-8 text-gray-700 cursor-pointer group-hover:scale-110 group-hover:text-primary transition-transform duration-200" />
+                <UserCircleIcon className="w-8 h-8 text-gray-700 cursor-pointer group-hover:scale-110 group-hover:text-blue-600 transition-all" />
               </Menu.Button>
               <Transition
                 as={Fragment}
@@ -93,7 +93,7 @@ const Navbar = ({ isAdmin }) => {
                 leaveFrom="transform scale-100 opacity-100"
                 leaveTo="transform scale-95 opacity-0"
               >
-                <Menu.Items className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg">
+                <Menu.Items className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-100">
                   <Menu.Item>
                     {({ active }) => (
                       <Link
@@ -122,18 +122,24 @@ const Navbar = ({ isAdmin }) => {
               </Transition>
             </Menu>
           ) : (
-            <Link to="/auth" className="text-gray-700 hover:text-primary">
+            <Link
+              to="/auth"
+              className="text-gray-700 hover:text-blue-600 transition-all"
+            >
               Login
             </Link>
           )}
           {isAdmin && (
-            <Link to="/admin" className="text-gray-700 hover:text-blue-600">
+            <Link
+              to="/admin"
+              className="text-gray-700 hover:text-blue-600 transition-all"
+            >
               Dashboard
             </Link>
           )}
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Toggle */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="md:hidden focus:outline-none"
@@ -152,7 +158,7 @@ const Navbar = ({ isAdmin }) => {
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.3 }}
-          className="md:hidden bg-white shadow-lg absolute top-16 right-0 w-full py-4 flex flex-col space-y-3"
+          className="md:hidden bg-white shadow-lg absolute top-16 right-0 w-full py-4 flex flex-col space-y-3 px-6"
         >
           {["Services", "Blogs", "Docs", "About Us", "Contact"].map(
             (item, index) => (
@@ -167,7 +173,7 @@ const Navbar = ({ isAdmin }) => {
                     ? "/docspage"
                     : `/${item.toLowerCase().replace(/\s/g, "")}`
                 }
-                className="text-gray-700 hover:text-primary"
+                className="text-gray-700 hover:text-blue-600 transition-all"
               >
                 {item}
               </Link>

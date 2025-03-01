@@ -4,6 +4,7 @@ import { addToCart } from "../redux/cartSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { X } from "lucide-react";
 
 const AddToCartForm = ({ service, onClose }) => {
   const dispatch = useDispatch();
@@ -38,16 +39,26 @@ const AddToCartForm = ({ service, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const fileUrl = await handleFileUpload();
-    if (!fileUrl) return;
+    let fileUrl = null;
+    if (service.requiresDocument) {
+      fileUrl = await handleFileUpload();
+      if (!fileUrl) return;
+    }
+
+    // Calculate total price based on priceType
+    let totalPrice = service.price;
+    if (service.priceType === "perUnit" && service.requiresDimensions) {
+      totalPrice = service.price * width * length;
+    }
 
     dispatch(
       addToCart({
         service,
-        width,
-        length,
-        document: fileUrl,
+        width: service.requiresDimensions ? width : 0,
+        length: service.requiresDimensions ? length : 0,
+        document: service.requiresDocument ? fileUrl : null,
         quantity: 1,
+        totalPrice,
       })
     );
 
@@ -56,75 +67,85 @@ const AddToCartForm = ({ service, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-6 rounded-xl shadow-lg max-w-lg w-full relative animate-fadeIn">
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 backdrop-blur-sm">
+      <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-lg w-full relative animate-fadeIn">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-3 right-4 text-gray-600 hover:text-gray-900 text-xl font-bold"
+          className="absolute top-4 right-4 text-gray-600 hover:text-gray-900 transition-colors"
         >
-          ✕
+          <X size={24} />
         </button>
 
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">
-          Add {service.name} to Cart
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">
+          Add <span className="text-blue-600">{service.name}</span> to Cart
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Width */}
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Width (ft):
-            </label>
-            <input
-              type="number"
-              value={width}
-              onChange={(e) => setWidth(e.target.value)}
-              required
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
-              placeholder="Enter width"
-            />
-          </div>
+          {service.requiresDimensions && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Width (ft):
+              </label>
+              <input
+                type="number"
+                value={width}
+                onChange={(e) => setWidth(e.target.value)}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                placeholder="Enter width"
+              />
+            </div>
+          )}
 
           {/* Length */}
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Length (ft):
-            </label>
-            <input
-              type="number"
-              value={length}
-              onChange={(e) => setLength(e.target.value)}
-              required
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
-              placeholder="Enter length"
-            />
-          </div>
+          {service.requiresDimensions && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Length (ft):
+              </label>
+              <input
+                type="number"
+                value={length}
+                onChange={(e) => setLength(e.target.value)}
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                placeholder="Enter length"
+              />
+            </div>
+          )}
 
           {/* File Upload */}
-          <div>
-            <label className="block text-gray-700 font-medium mb-1">
-              Upload Document:
-            </label>
-            <input
-              type="file"
-              onChange={(e) => setDocument(e.target.files[0])}
-              accept=".pdf,.jpg,.png"
-              required
-              className="w-full border rounded-lg px-3 py-2 file:bg-blue-600 file:text-white file:px-3 file:py-2 file:rounded-lg file:cursor-pointer hover:file:bg-blue-700"
-            />
-            {document && (
-              <p className="text-sm text-gray-600 mt-1">
-                Selected: {document.name}
-              </p>
-            )}
-          </div>
+          {service.requiresDocument && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Upload Document:
+              </label>
+              <div className="flex items-center justify-center w-full border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-blue-500 transition-all">
+                <input
+                  type="file"
+                  onChange={(e) => setDocument(e.target.files[0])}
+                  accept=".pdf,.jpg,.png"
+                  required
+                  className="hidden"
+                  id="file-upload"
+                />
+                <label
+                  htmlFor="file-upload"
+                  className="cursor-pointer text-blue-600 hover:text-blue-700 font-medium"
+                >
+                  {document ? document.name : "Choose a file"}
+                </label>
+              </div>
+            </div>
+          )}
 
           {/* Submit Button */}
           <button
             type="submit"
             disabled={uploading}
-            className={`w-full py-2 rounded-lg text-white transition font-semibold ${
+            className={`w-full py-3 rounded-lg text-white font-semibold transition-all ${
               uploading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-green-600 hover:bg-green-700"

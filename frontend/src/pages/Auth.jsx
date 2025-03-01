@@ -13,7 +13,7 @@ const Auth = () => {
     name: "",
     email: "",
     password: "",
-    phone: "", // Add phone field
+    phone: "",
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -40,15 +40,15 @@ const Auth = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 px-6">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-50 to-purple-50 px-6">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-2xl bg-white shadow-xl rounded-2xl overflow-hidden flex"
+        className="w-full max-w-2xl bg-white shadow-2xl rounded-2xl overflow-hidden flex"
       >
         {/* Left Section */}
-        <div className="w-1/2 bg-blue-600 p-10 flex flex-col justify-center">
+        <div className="w-1/2 bg-gradient-to-r from-blue-600 to-purple-600 p-10 flex flex-col justify-center">
           <motion.h2
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}

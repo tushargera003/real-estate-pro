@@ -13,7 +13,7 @@ import About from "./pages/About";
 import Checkout from "./pages/Checkout";
 import ContactUs from "./pages/ContactUs";
 import Cart from "./pages/Cart";
-import BlogPage from "./pages/Blogpage";
+import BlogPage from "./pages/BlogPage";
 import DocsPage from "./pages/DocsPage";
 import Auth from "./pages/Auth";
 import MyOrders from "./pages/MyOrders";
@@ -31,6 +31,7 @@ import AdminRoutes from "./routes/AdminRoutes";
 import { checkAdmin, checkUserAuth } from "./utils/auth"; // Import your auth functions
 import AdminContactMessages from "./components/Admin/AdminContactMessages";
 import NewsletterSubscribers from "./components/Admin/NewsletterSubscribers";
+import NotFoundPage from "./pages/NotFoundPage";
 
 const AppContent = ({ isAdmin }) => {
   const location = useLocation();
@@ -59,7 +60,7 @@ const AppContent = ({ isAdmin }) => {
           <Route path="/docspage" element={<DocsPage />} />
           <Route path="/my-orders" element={<MyOrders />} />
           <Route path="/orders/:id" element={<OrderDetails />} />
-
+          <Route path="*" element={<NotFoundPage />} />
           {/* Admin Routes */}
 
           <Route element={<AdminRoutes />}>

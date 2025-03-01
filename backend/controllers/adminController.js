@@ -83,14 +83,27 @@ export const getServices = async (req, res) => {
 
 // ✅ 6. Add New Service
 export const addService = async (req, res) => {
-    try {
-        const { name, description, price, document, images } = req.body;
-        const service = new Service({ name, description, price, document, images }); // ✅ Add document and images fields
-        const createdService = await service.save();
-        res.status(201).json(createdService);
-      } catch (error) {
-        res.status(400).json({ message: 'Invalid service data' });
-      }
+  try {
+    const { name, description, price, document, images, priceType, requiresDimensions, requiresDocument } = req.body;
+    console.log("requiresDimensions",requiresDimensions);
+    console.log("requiresDocument",requiresDocument);
+    const service = new Service({ 
+      name, 
+      description, 
+      price, 
+      document, 
+      images,
+      priceType,
+      requiresDimensions,
+      requiresDocument
+    });
+
+    const createdService = await service.save();
+    res.status(201).json(createdService);
+
+  } catch (error) {
+    res.status(400).json({ message: 'Invalid service data' });
+  }
 };
 
 // ✅ 7. Delete Service
@@ -102,47 +115,79 @@ export const deleteService = async (req, res) => {
     res.status(500).json({ message: "Error Deleting Service" });
   }
 };
- export const analytics = async (req, res) => {
-    try {
-      const orders = await Order.find();
-  
-      // Total Revenue Calculation
-      const revenue = orders.reduce((sum, order) => sum + order.totalAmount, 0);
-      const totalOrders = orders.length;
+export const analytics = async (req, res) => {
+  try {
+    const orders = await Order.find().populate("services.service"); // Populate service details
 
-      // Order Status Count
-      const statusCounts = orders.reduce((acc, order) => {
-        acc[order.status] = (acc[order.status] || 0) + 1;
-        return acc;
-      }, {});
-  
-      // Monthly Orders
-      const monthlyOrders = {};
-      orders.forEach(order => {
-        const month = new Date(order.createdAt).toLocaleString("default", { month: "short" });
-        monthlyOrders[month] = (monthlyOrders[month] || 0) + 1;
+    // Total Revenue Calculation
+    const revenue = orders.reduce((sum, order) => sum + order.totalAmount, 0);
+    const totalOrders = orders.length;
+
+    // Order Status Count
+    const statusCounts = orders.reduce((acc, order) => {
+      acc[order.status] = (acc[order.status] || 0) + 1;
+      return acc;
+    }, {});
+
+    // Monthly Orders
+    const monthlyOrders = {};
+    orders.forEach((order) => {
+      const month = new Date(order.createdAt).toLocaleString("default", {
+        month: "short",
       });
+      monthlyOrders[month] = (monthlyOrders[month] || 0) + 1;
+    });
 
-      const mostOrderedServices = orders.reduce((acc, order) => {
-        order.services.forEach((service) => {
-          acc[service.name] = (acc[service.name] || 0) + 1;
-        });
-        return acc;
-      }, {});
-      
+    // Orders of This Month
+    const currentMonth = new Date().toLocaleString("default", { month: "short" });
+    const ordersThisMonth = orders.filter((order) => {
+      const orderMonth = new Date(order.createdAt).toLocaleString("default", {
+        month: "short",
+      });
+      return orderMonth === currentMonth;
+    }).length;
 
-      const paymentMethods = orders.reduce((acc, order) => {
-        acc[order.paymentMethod] = (acc[order.paymentMethod] || 0) + 1;
-        return acc;
-      }, {});
-      
-  
-      res.json({ revenue, totalOrders, statusCounts, monthlyOrders, mostOrderedServices, paymentMethods });
+    // Total Number of Orders by Date
+    const ordersByDate = orders.reduce((acc, order) => {
+      const date = new Date(order.createdAt).toLocaleDateString();
+      acc[date] = (acc[date] || 0) + 1;
+      return acc;
+    }, {});
 
-    } catch (error) {
-      res.status(500).json({ message: "Server error" });
-    }
-  };
+    // Pending Orders Percentage
+    const pendingOrders = statusCounts["Pending"] || 0;
+    const pendingOrdersPercentage = ((pendingOrders / totalOrders) * 100).toFixed(2);
+
+    // Most Ordered Service
+    const mostOrderedServices = orders.reduce((acc, order) => {
+      order.services.forEach((service) => {
+        const serviceName = service.service?.name || "Unknown Service"; // Handle undefined service
+        acc[serviceName] = (acc[serviceName] || 0) + 1;
+      });
+      return acc;
+    }, {});
+
+    // Payment Methods
+    const paymentMethods = orders.reduce((acc, order) => {
+      acc[order.paymentMethod] = (acc[order.paymentMethod] || 0) + 1;
+      return acc;
+    }, {});
+
+    res.json({
+      revenue,
+      totalOrders,
+      statusCounts,
+      monthlyOrders,
+      ordersThisMonth,
+      ordersByDate,
+      pendingOrdersPercentage,
+      mostOrderedServices,
+      paymentMethods,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
   
 
   export const toggleAdmin = async (req, res) => {
@@ -188,5 +233,33 @@ export const deleteService = async (req, res) => {
     } catch (error) {
       console.error("Error fetching contact messages:", error);
       res.status(500).json({ error: "Internal Server Error" });
+    }
+  };
+
+
+
+  //update service 
+  export const updateService = async (req, res) => {
+    try {
+      const { name, description, price, document, images, priceType, requiresDimensions, requiresDocument } = req.body;
+      const service = await Service.findById(req.params.id);
+  
+      if (service) {
+        service.name = name;
+        service.description = description;
+        service.price = price;
+        service.document = document;
+        service.images = images;
+        service.priceType = priceType;
+        service.requiresDimensions = requiresDimensions;
+        service.requiresDocument = requiresDocument;
+  
+        const updatedService = await service.save();
+        res.json(updatedService);
+      } else {
+        res.status(404).json({ message: 'Service not found' });
+      }
+    } catch (error) {
+      res.status(400).json({ message: 'Invalid service data' });
     }
   };

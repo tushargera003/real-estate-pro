@@ -10,12 +10,12 @@ const Home = () => {
       <Hero />
 
       {/* Services Overview */}
-      <section className="container py-16">
+      <section className="container py-20">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-4xl font-bold text-center text-blue-700 mb-12"
+          className="text-4xl font-bold text-center text-gray-800 mb-12"
         >
           Our Top Services
         </motion.h2>
@@ -40,9 +40,9 @@ const Home = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
-              className={`p-6 rounded-xl shadow-lg text-white text-center ${service.color} hover:scale-105 transition-transform duration-300`}
+              className={`p-8 rounded-2xl shadow-lg text-white text-center ${service.color} hover:scale-105 transition-transform duration-300`}
             >
-              <h3 className="text-2xl font-semibold mb-2">{service.title}</h3>
+              <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
               <p className="text-white/80">
                 Reliable {service.title.toLowerCase()} services with expert
                 guidance.
@@ -51,7 +51,7 @@ const Home = () => {
           ))}
         </div>
 
-        <div className="flex justify-center mt-12">
+        <div className="flex justify-center mt-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -59,7 +59,7 @@ const Home = () => {
           >
             <Link
               to="/services"
-              className="py-3 px-8 rounded-lg bg-blue-600 text-white text-lg font-medium hover:bg-blue-500 transition-all duration-300 shadow-lg"
+              className="py-3 px-8 rounded-lg bg-blue-600 text-white text-lg font-semibold hover:bg-blue-500 transition-all duration-300 shadow-lg"
             >
               View All Services
             </Link>

@@ -80,7 +80,7 @@ const ManageUsers = () => {
       </motion.h1>
 
       <motion.div
-        className="w-full max-w-4xl bg-gray-800/70 backdrop-blur-lg rounded-lg shadow-lg border border-gray-700/50 overflow-hidden max-h-[500px] overflow-y-auto"
+        className="w-full max-w-4xl bg-gray-800/70 backdrop-blur-lg rounded-lg shadow-lg border border-gray-700/50 overflow-hidden max-h-[500px] min-h-[520px] overflow-y-auto"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}

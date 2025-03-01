@@ -39,6 +39,7 @@ const AdminLayout = () => {
               { name: "Manage Orders", path: "/admin/orders" },
               { name: "Manage Services", path: "/admin/services" },
               { name: "Manage Contact Us", path: "/admin/ContactMessages" },
+              { name: "Manage Newsletters", path: "/admin/newsletters" },
             ].map((item, index) => (
               <li key={index} className="mb-2">
                 <Link

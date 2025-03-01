@@ -14,15 +14,28 @@ const serviceSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    priceType: {
+      type: String,
+      enum: ["fixed", "perUnit"], // Fixed price or per unit (length/width)
+      default: "fixed",
+    },
     document: {
-      type: String, // ✅ Add document field
+      type: String, // Document URL
     },
     images: {
-      type: [String], // ✅ Add images field (array of strings)
+      type: [String], // Array of image URLs
     },
     active: {
       type: Boolean,
       default: true,
+    },
+    requiresDimensions: {
+      type: Boolean,
+      default: false, // Default: Dimensions not required
+    },
+    requiresDocument: {
+      type: Boolean,
+      default: false, // Default: Document not required
     },
   },
   {

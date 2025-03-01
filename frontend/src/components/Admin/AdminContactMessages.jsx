@@ -35,7 +35,7 @@ const AdminContactMessages = () => {
 
   return (
     <motion.div
-      className=" flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800 p-8 "
+      className=" min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800 p-8 "
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}

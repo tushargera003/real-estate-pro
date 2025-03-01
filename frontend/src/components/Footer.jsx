@@ -55,7 +55,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-900 text-white py-10">
+    <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-6">
         {/* Brand Info */}
         <motion.div
@@ -63,7 +63,7 @@ const Footer = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-2xl font-bold mb-4 text-orange-400">
+          <h2 className="text-2xl font-bold mb-4 text-blue-500">
             Real Estate Pro
           </h2>
           <p className="text-gray-300">
@@ -78,19 +78,19 @@ const Footer = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h3 className="text-2xl font-bold mb-4 text-orange-400">Address:</h3>
+          <h3 className="text-xl font-bold mb-4 text-blue-500">Address:</h3>
           <p className="text-gray-400 mb-2">{address}</p>
 
           <div className="space-y-2">
             <a
               href={`tel:${phoneNumber}`}
-              className="flex items-center text-gray-200 hover:text-orange-400 transition-all"
+              className="flex items-center text-gray-200 hover:text-blue-500 transition-all"
             >
               <FaPhoneAlt className="mr-2" /> {phoneNumber}
             </a>
             <a
               href={`mailto:${email}`}
-              className="flex items-center text-gray-200 hover:text-orange-400 transition-all"
+              className="flex items-center text-gray-200 hover:text-blue-500 transition-all"
             >
               <FaEnvelope className="mr-2" /> {email}
             </a>
@@ -98,7 +98,7 @@ const Footer = () => {
               href={`https://wa.me/${whatsappNumber}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center text-gray-200 hover:text-orange-400 transition-all"
+              className="flex items-center text-gray-200 hover:text-blue-500 transition-all"
             >
               <FaWhatsapp className="mr-2" /> {whatsappNumber}
             </a>
@@ -111,15 +111,13 @@ const Footer = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <h3 className="text-xl font-semibold mb-4 text-orange-400">
-            Follow Us On
-          </h3>
+          <h3 className="text-xl font-bold mb-4 text-blue-500">Follow Us On</h3>
           <div className="flex space-x-4">
             <a
               href="https://facebook.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-orange-400 transition-all"
+              className="text-gray-400 hover:text-blue-500 transition-all"
             >
               <FaFacebookF size={20} />
             </a>
@@ -127,7 +125,7 @@ const Footer = () => {
               href="https://instagram.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-orange-400 transition-all"
+              className="text-gray-400 hover:text-blue-500 transition-all"
             >
               <FaInstagram size={20} />
             </a>
@@ -135,7 +133,7 @@ const Footer = () => {
               href="https://linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-orange-400 transition-all"
+              className="text-gray-400 hover:text-blue-500 transition-all"
             >
               <FaLinkedinIn size={20} />
             </a>
@@ -148,20 +146,20 @@ const Footer = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
-          <h3 className="text-xl font-semibold mb-4 text-orange-400">
+          <h3 className="text-xl font-bold mb-4 text-blue-500">
             Subscribe to our Newsletter
           </h3>
           <form className="flex flex-col space-y-2" onSubmit={handleSubscribe}>
             <input
               type="email"
               placeholder="Enter your email"
-              className="p-2 rounded-lg text-gray-800 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="p-2 rounded-lg text-gray-800 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={emailInput}
               onChange={(e) => setEmailInput(e.target.value)}
             />
             <button
               type="submit"
-              className="bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-lg transition-all"
+              className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition-all"
             >
               Subscribe
             </button>

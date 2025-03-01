@@ -42,13 +42,13 @@ const ContactUs = () => {
   };
 
   return (
-    <section className="container mx-auto px-6 py-16">
+    <section className="container mx-auto px-6 py-20">
       {/* Contact Us Header */}
       <motion.div
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="text-center mb-12"
+        className="text-center mb-16"
       >
         <h2 className="text-5xl font-extrabold text-gray-800 mb-4">
           Contact Us
@@ -60,17 +60,21 @@ const ContactUs = () => {
       </motion.div>
 
       {/* Contact Info */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
         {[
-          { title: "Phone", icon: <Phone />, content: "+91 70000000000" },
+          {
+            title: "Phone",
+            icon: <Phone size={32} />,
+            content: "+91 70000000000",
+          },
           {
             title: "Email",
-            icon: <Mail />,
+            icon: <Mail size={32} />,
             content: "realestatepro@gmail.com",
           },
           {
             title: "Location",
-            icon: <MapPin />,
+            icon: <MapPin size={32} />,
             content: "Real Estate Pro Services",
           },
         ].map((item, index) => (
@@ -79,10 +83,10 @@ const ContactUs = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: index * 0.2 }}
-            className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6 rounded-xl shadow-lg hover:scale-105 transform transition duration-300 ease-in-out flex flex-col items-center"
+            className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-8 rounded-2xl shadow-lg hover:scale-105 transform transition duration-300 ease-in-out flex flex-col items-center"
           >
-            <div className="text-4xl mb-3">{item.icon}</div>
-            <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
+            <div className="text-4xl mb-4">{item.icon}</div>
+            <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
             <p className="text-lg">{item.content}</p>
           </motion.div>
         ))}
@@ -94,12 +98,12 @@ const ContactUs = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.7 }}
         onSubmit={handleSubmit}
-        className="w-full max-w-2xl mx-auto p-8 bg-white shadow-lg rounded-2xl"
+        className="w-full max-w-2xl mx-auto p-8 bg-white shadow-2xl rounded-2xl"
       >
-        <h2 className="text-3xl font-semibold text-center mb-6 text-gray-800">
+        <h2 className="text-3xl font-semibold text-center mb-8 text-gray-800">
           Send a Message
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <input
             type="text"
             name="name"
@@ -107,7 +111,7 @@ const ContactUs = () => {
             onChange={handleChange}
             placeholder="Your Name"
             required
-            className="p-3 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+            className="p-3 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
           />
           <input
             type="email"
@@ -116,7 +120,7 @@ const ContactUs = () => {
             onChange={handleChange}
             placeholder="Your Email"
             required
-            className="p-3 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+            className="p-3 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
           />
         </div>
         <input
@@ -126,7 +130,7 @@ const ContactUs = () => {
           onChange={handleChange}
           placeholder="Subject"
           required
-          className="w-full p-3 mt-4 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+          className="w-full p-3 mt-6 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
         />
         <textarea
           name="message"
@@ -135,13 +139,13 @@ const ContactUs = () => {
           placeholder="Your Message"
           rows="5"
           required
-          className="w-full p-3 mt-4 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
+          className="w-full p-3 mt-6 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
         ></textarea>
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           type="submit"
-          className="w-full mt-6 p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-all duration-300"
+          className="w-full mt-8 p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-all duration-300"
         >
           Send Message
         </motion.button>

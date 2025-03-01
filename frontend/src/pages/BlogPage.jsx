@@ -15,7 +15,7 @@ const BlogPage = () => {
   return (
     <div className="bg-gray-100 min-h-screen font-sans">
       {/* Blog Section */}
-      <section className="pt-15 px-6 text-center">
+      <section className="pt-20 px-6 text-center">
         <div className="flex justify-center text-6xl font-extrabold space-x-2">
           {letters.map((letter, index) => (
             <motion.span
@@ -36,15 +36,25 @@ const BlogPage = () => {
             </motion.span>
           ))}
         </div>
-        <p className="text-lg mt-3 italic text-gray-700">
+        <motion.p
+          className="text-lg mt-3 italic text-gray-700"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+        >
           "Explore the latest insights and updates in the real estate world"
-        </p>
+        </motion.p>
       </section>
 
       <div className="container mx-auto p-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Blog 1 */}
-          <div className="bg-white shadow-lg rounded-lg">
+          <motion.div
+            className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             <img
               src="https://th.bing.com/th/id/OIP.HuqlRQlpEcF4JSXV_9dgowHaEJ?w=289&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
               alt="Property Document Verification"
@@ -60,15 +70,20 @@ const BlogPage = () => {
               </p>
               <Link
                 to="/blog/property-document-verification"
-                className="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-lg"
+                className="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300"
               >
                 Read More
               </Link>
             </div>
-          </div>
+          </motion.div>
 
           {/* Blog 2 */}
-          <div className="bg-white shadow-lg rounded-lg">
+          <motion.div
+            className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             <img
               src="https://th.bing.com/th/id/OIP.ZaQSMO7F-LSpp-rCbxfMhQHaEQ?w=276&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
               alt="Property Valuation Advisory"
@@ -83,15 +98,20 @@ const BlogPage = () => {
               </p>
               <Link
                 to="/blog/property-valuation-advisory"
-                className="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-lg"
+                className="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300"
               >
                 Read More
               </Link>
             </div>
-          </div>
+          </motion.div>
 
           {/* Blog 3 */}
-          <div className="bg-white shadow-lg rounded-lg">
+          <motion.div
+            className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
             <img
               src="https://cdn.pixabay.com/photo/2020/03/29/02/13/pen-4979032_1280.jpg"
               alt="Property Laws in Delhi"
@@ -106,15 +126,20 @@ const BlogPage = () => {
               </p>
               <Link
                 to="/blog/property-laws-delhi"
-                className="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-lg"
+                className="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300"
               >
                 Read More
               </Link>
             </div>
-          </div>
+          </motion.div>
 
           {/* Blog 4 */}
-          <div className="bg-white shadow-lg rounded-lg">
+          <motion.div
+            className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+          >
             <img
               src="https://th.bing.com/th/id/OIP.OYi0hBFDMZszGayHBXc33QHaDZ?w=307&h=160&c=7&r=0&o=5&dpr=1.3&pid=1.7"
               alt="Land Use Change"
@@ -129,15 +154,20 @@ const BlogPage = () => {
               </p>
               <Link
                 to="/blog/land-use-change"
-                className="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-lg"
+                className="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300"
               >
                 Read More
               </Link>
             </div>
-          </div>
+          </motion.div>
 
           {/* Blog 5 */}
-          <div className="bg-white shadow-lg rounded-lg">
+          <motion.div
+            className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1 }}
+          >
             <img
               src="https://th.bing.com/th/id/OIP.49NQz7eD3AYDnqC4c03CqQHaFj?w=210&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
               alt="Property Lawyers in Delhi"
@@ -152,15 +182,20 @@ const BlogPage = () => {
               </p>
               <Link
                 to="/blog/property-lawyers-delhi"
-                className="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-lg"
+                className="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300"
               >
                 Read More
               </Link>
             </div>
-          </div>
+          </motion.div>
 
           {/* Blog 6 */}
-          <div className="bg-white shadow-lg rounded-lg">
+          <motion.div
+            className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.2 }}
+          >
             <img
               src="https://th.bing.com/th/id/OIP.49NQz7eD3AYDnqC4c03CqQHaFj?w=210&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
               alt="Due Diligence Services in Delhi"
@@ -176,12 +211,12 @@ const BlogPage = () => {
               </p>
               <Link
                 to="/blog/due-diligence-services-delhi"
-                className="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-lg"
+                className="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300"
               >
                 Read More
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

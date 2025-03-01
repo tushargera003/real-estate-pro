@@ -9,26 +9,22 @@ const Services = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
-  const itemsPerPage = 6; // ✅ `servicesPerPage` ko define kiya
+  const itemsPerPage = 6;
 
-  // ✅ Fetch services with pagination
   const fetchServices = async (page = 1) => {
     try {
       setLoading(true);
       const { data } = await axios.get(
         `${
           import.meta.env.VITE_BACKEND_URL
-        }/api/services?page=${page}&limit=${itemsPerPage}`
+        }/api/services?page=${page}&limit=${itemsPerPage}&active=true`
       );
-
-      console.log("Fetched Data:", JSON.stringify(data, null, 2));
-      setServices(data.services || []); // ✅ Ensure data is an array
+      setServices(data.services || []);
       setTotalPages(data.totalPages || 1);
       setCurrentPage(data.currentPage || 1);
     } catch (err) {
       console.error("Error fetching services:", err);
       setServices([]);
-      console.log("hello"); // ✅ Prevent undefined issues
     } finally {
       setLoading(false);
     }
@@ -36,9 +32,7 @@ const Services = () => {
 
   useEffect(() => {
     fetchServices(currentPage);
-    console.log("Current Page:", currentPage);
-    console.log("Updated Services:", services);
-  }, [currentPage]); // ✅ Fetch data whenever currentPage changes
+  }, [currentPage]);
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
@@ -74,7 +68,12 @@ const Services = () => {
       transition={{ duration: 0.8 }}
       className="container mx-auto py-10"
     >
-      <motion.h1 className="text-3xl font-bold mb-8 text-center">
+      <motion.h1
+        className="text-4xl font-bold mb-8 text-center text-gray-800"
+        initial={{ y: -20 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         Our Services
       </motion.h1>
 
@@ -85,19 +84,24 @@ const Services = () => {
       >
         {services.length > 0 ? (
           services.map((service) => (
-            <motion.div key={service._id}>
+            <motion.div
+              key={service._id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
               <ServiceCard service={service} />
             </motion.div>
           ))
         ) : (
           <p className="text-gray-500 text-center col-span-3">
-            No services available
+            No active services available
           </p>
         )}
       </motion.div>
 
-      {/* ✅ Pagination UI */}
-      <div className="flex justify-center mt-6 space-x-3">
+      {/* Pagination UI */}
+      <div className="flex justify-center mt-10 space-x-3">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}

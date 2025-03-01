@@ -47,7 +47,7 @@ const ManageOrders = () => {
   const paginatedOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
 
   return (
-    <div className=" bg-gradient-to-br from-gray-900 to-gray-800 p-5  max-h-[900px] min-h-[500px] overflow-y-auto">
+    <div className=" bg-gradient-to-br from-gray-900 to-gray-800 p-5 max-h-[650px] min-h-[650px] overflow-y-auto">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -62,10 +62,9 @@ const ManageOrders = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
-          className="bg-gray-800/70 backdrop-blur-lg rounded-lg shadow-lg p-6 border border-gray-700/50 "
+          className="bg-gray-800/70 backdrop-blur-lg rounded-lg shadow-lg p-6 border border-gray-700/50"
         >
           <table className="w-full">
-            ...
             <thead>
               <tr className="bg-gray-700/50 rounded-t-lg">
                 <th className="py-2 px-2 text-left text-purple-400 font-semibold">
@@ -107,7 +106,7 @@ const ManageOrders = () => {
                     {order.user?.name || "Guest"}
                   </td>
                   <td className="py-2 px-2 text-purple-300 overflow-hidden text-ellipsis whitespace-nowrap">
-                    {order.user?.phone || order.user?.email || "N/A"}
+                    {order.user?.email || order.user?.phone || "N/A"}
                   </td>
                   <td className="py-2 px-2 text-purple-300 font-semibold overflow-hidden text-ellipsis whitespace-nowrap">
                     ₹{order.totalAmount}
@@ -142,7 +141,6 @@ const ManageOrders = () => {
                 </motion.tr>
               ))}
             </tbody>
-            ... ...
           </table>
         </motion.div>
 
@@ -220,10 +218,10 @@ const ManageOrders = () => {
                   <strong>User:</strong> {selectedOrder.user?.name || "Guest"}
                 </p>
                 <p>
-                  <strong>Email / Phone:</strong>{" "}
-                  {selectedOrder.user?.phone ||
-                    selectedOrder.user?.email ||
-                    "N/A"}
+                  <strong>Email:</strong> {selectedOrder.user?.email || "N/A"}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {selectedOrder.user?.phone || "N/A"}
                 </p>
                 <p>
                   <strong>Total Amount:</strong> ₹{selectedOrder.totalAmount}
@@ -240,11 +238,18 @@ const ManageOrders = () => {
                     <li key={index} className="mt-2">
                       <p>
                         <strong>
-                          {service.service && service.service.name
-                            ? service.service.name
-                            : "Unknown Service"}
+                          {service.service?.name || "Unknown Service"}
                         </strong>
                       </p>
+                      <p>
+                        <strong>Price:</strong> ₹{service.price}
+                      </p>
+                      {service.width && service.length && (
+                        <p>
+                          <strong>Dimensions:</strong> {service.width} ft (W) x{" "}
+                          {service.length} ft (L)
+                        </p>
+                      )}
                       {service.documentUrl ? (
                         <a
                           href={service.documentUrl}
@@ -252,7 +257,7 @@ const ManageOrders = () => {
                           rel="noopener noreferrer"
                           className="text-blue-400 underline hover:text-blue-300"
                         >
-                          Document
+                          View Document
                         </a>
                       ) : (
                         <span className="text-gray-400">

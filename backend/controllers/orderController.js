@@ -8,20 +8,21 @@ const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
+
 // Create a new order
 export const createOrder = async (req, res) => {
   try {
     const { customerDetails, cartItems, totalAmount, paymentMethod, paymentId } = req.body;
-    
+
     const newOrder = new Order({
-      customerDetails:customerDetails,
+      customerDetails,
       user: req.user._id, // Assuming user is authenticated
       services: cartItems.map(item => ({
         service: item.service._id,  // Extracting only the ObjectId
         width: item.width || 0,
         length: item.length || 0,
         documentUrl: item.document || "",
-        price: item.service.price, // Getting price from service object
+        price: item.totalPrice, // Use totalPrice from cart item
       })),
       totalAmount,
       paymentMethod,
@@ -38,7 +39,6 @@ export const createOrder = async (req, res) => {
     res.status(500).json({ success: false, message: "Server Error", error: error.message });
   }
 };
-
 
 // Verify Razorpay Payment
 export const verifyPayment = async (req, res) => {
@@ -58,6 +58,12 @@ export const verifyPayment = async (req, res) => {
     const service = await Service.findById(serviceId);
     if (!service) return res.status(404).json({ message: 'Service not found' });
 
+    // Calculate total price based on priceType
+    let totalPrice = service.price;
+    if (service.priceType === "perUnit" && service.requiresDimensions) {
+      totalPrice = service.price * width * length;
+    }
+
     // Create order after successful payment
     const newOrder = await Order.create({
       service: serviceId,
@@ -65,7 +71,7 @@ export const verifyPayment = async (req, res) => {
       width,
       length,
       documentUrl,
-      price: service.cost,
+      price: totalPrice, // Use calculated total price
       status: 'Processing',
       paymentMethod: 'Online Payment',
       isPaid: true,
@@ -82,11 +88,14 @@ export const verifyPayment = async (req, res) => {
 // Get all orders (admin)
 export const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate('service user', 'name email cost phone');
+    const orders = await Order.find()
+      .populate("user", "name email phone") // Populate user details
+      .populate("services.service", "name price priceType"); // Populate service details
+
     res.status(200).json(orders);
   } catch (error) {
-    console.error('Error fetching orders:', error);
-    res.status(500).json({ message: 'Server Error' });
+    console.error("Error fetching orders:", error);
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -114,19 +123,19 @@ export const updateOrderStatus = async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 };
+
+// Get logged-in user's orders
 export const getMyOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id }).populate("services.service", "name");
-    
     res.json(orders);
   } catch (error) {
-    console.error("Error fetching orders:", error); // Debug log
+    console.error("Error fetching orders:", error);
     res.status(500).json({ message: "Error fetching orders", error });
   }
 };
 
-
-
+// Place order (legacy function, can be removed if not used)
 export const placeOrder = async (req, res) => {
   try {
     const { user, items, paymentMethod, paymentInfo } = req.body;

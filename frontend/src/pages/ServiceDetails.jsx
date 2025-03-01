@@ -2,13 +2,14 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import AddToCartForm from "../components/AddToCartForm";
+import { motion } from "framer-motion";
 
 const ServiceDetails = () => {
   const { id } = useParams();
   const [service, setService] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showContent, setShowContent] = useState(false);
-  const [showForm, setShowForm] = useState(false); // ✅ Add state for form visibility
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     const fetchService = async () => {
@@ -47,9 +48,27 @@ const ServiceDetails = () => {
     );
   }
 
+  if (!loading && service && !service.active) {
+    return (
+      <div className="container mx-auto px-4 py-10 min-h-screen flex justify-center">
+        <div className="max-w-3xl w-full bg-white shadow-2xl rounded-2xl p-6 text-center">
+          <h2 className="text-2xl text-red-500 font-semibold">
+            This service is currently unavailable.
+          </h2>
+          <Link
+            to="/services"
+            className="mt-4 inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+          >
+            Browse Available Services
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-10 min-h-screen flex justify-center">
-      <div className="max-w-3xl w-full bg-white shadow-md rounded-lg p-6">
+      <div className="max-w-3xl w-full bg-white shadow-2xl rounded-2xl p-6">
         {loading ? (
           <div className="animate-pulse">
             <div className="h-8 w-3/4 bg-gray-300 rounded mb-4"></div>
@@ -78,17 +97,19 @@ const ServiceDetails = () => {
               Price: ₹{service.price.toLocaleString()}
             </p>
 
-            {/* ✅ Button to show/hide the form */}
+            {/* Button to show/hide the form */}
             <div className="mt-6">
-              <button
+              <motion.button
                 onClick={() => setShowForm(true)}
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 Add to Cart
-              </button>
+              </motion.button>
             </div>
 
-            {/* ✅ Show form only when `showForm` is true */}
+            {/* Show form only when `showForm` is true */}
             {showForm && (
               <AddToCartForm
                 service={service}

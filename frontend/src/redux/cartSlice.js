@@ -30,7 +30,13 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const { service, quantity, width, length, document } = action.payload;
-    
+
+      // Calculate total price based on priceType
+      let totalPrice = service.price;
+      if (service.priceType === "perUnit" && service.requiresDimensions) {
+        totalPrice = service.price * width * length;
+      }
+
       const existingItem = state.items.find(
         (item) =>
           item.service.id === service.id &&
@@ -38,22 +44,31 @@ const cartSlice = createSlice({
           item.length === length &&
           item.document === document
       );
-    
+
       if (existingItem) {
         existingItem.quantity += quantity;
+        existingItem.totalPrice = totalPrice * existingItem.quantity; // Update total price
       } else {
-        state.items.push({ service, quantity, width, length, document });
+        state.items.push({
+          service,
+          quantity,
+          width,
+          length,
+          document,
+          totalPrice: totalPrice * quantity, // Store total price for the item
+        });
       }
-    
+
       saveCartToLocalStorage(state.items);
     },
-    
+
     removeFromCart: (state, action) => {
       state.items = state.items.filter(
         (item) => item.service._id !== action.payload
       );
       saveCartToLocalStorage(state.items); // Save cart to local storage
     },
+
     clearCart: (state) => {
       state.items = [];
       saveCartToLocalStorage(state.items); // Save cart to local storage

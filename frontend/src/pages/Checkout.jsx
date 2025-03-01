@@ -19,10 +19,7 @@ const Checkout = () => {
   const navigate = useNavigate();
 
   const calculateTotal = () =>
-    cartItems.reduce(
-      (acc, item) => acc + item.service.price * item.quantity,
-      0
-    );
+    cartItems.reduce((acc, item) => acc + item.totalPrice, 0);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -116,12 +113,14 @@ const Checkout = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Billing Information Form */}
           <form
             onSubmit={handleSubmit}
             className="lg:col-span-2 border p-6 rounded-lg shadow-lg space-y-6"
           >
             <h2 className="text-2xl font-semibold mb-4">Billing Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Full Name */}
               <input
                 type="text"
                 name="fullName"
@@ -129,8 +128,9 @@ const Checkout = () => {
                 value={formData.fullName}
                 onChange={handleChange}
                 required
-                className="border rounded-lg px-4 py-2 w-full"
+                className="border rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
+              {/* Email */}
               <input
                 type="email"
                 name="email"
@@ -138,8 +138,9 @@ const Checkout = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="border rounded-lg px-4 py-2 w-full"
+                className="border rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
+              {/* Phone Number */}
               <input
                 type="tel"
                 name="phone"
@@ -147,8 +148,9 @@ const Checkout = () => {
                 value={formData.phone}
                 onChange={handleChange}
                 required
-                className="border rounded-lg px-4 py-2 w-full"
+                className="border rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
+              {/* Address */}
               <input
                 type="text"
                 name="address"
@@ -156,10 +158,11 @@ const Checkout = () => {
                 value={formData.address}
                 onChange={handleChange}
                 required
-                className="border rounded-lg px-4 py-2 w-full"
+                className="border rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
 
+            {/* Payment Method */}
             <div>
               <label className="block text-gray-700 font-medium mb-2">
                 Payment Method:
@@ -168,24 +171,26 @@ const Checkout = () => {
                 name="paymentMethod"
                 value={formData.paymentMethod}
                 onChange={handleChange}
-                className="border rounded-lg px-4 py-2 w-full"
+                className="border rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
               >
+                <option value="Cash on Delivery">Cash on Delivery</option>
                 <option value="Credit Card">Credit Card</option>
                 <option value="Debit Card">Debit Card</option>
                 <option value="UPI">UPI</option>
                 <option value="Net Banking">Net Banking</option>
-                <option value="Cash on Delivery">Cash on Delivery</option>
               </select>
             </div>
 
+            {/* Place Order Button */}
             <button
               type="submit"
-              className="w-full bg-green-600 text-white py-3 rounded-lg text-lg hover:bg-green-700"
+              className="w-full bg-green-600 text-white py-3 rounded-lg text-lg hover:bg-green-700 transition duration-300"
             >
               Place Order
             </button>
           </form>
 
+          {/* Order Summary */}
           <div className="border p-6 rounded-lg shadow-lg h-fit sticky top-10">
             <h3 className="text-2xl font-semibold mb-4 text-center">
               Order Summary
@@ -196,9 +201,7 @@ const Checkout = () => {
                   <span>
                     {item.service.name} (x{item.quantity})
                   </span>
-                  <span>
-                    ₹{(item.service.price * item.quantity).toLocaleString()}
-                  </span>
+                  <span>₹{item.totalPrice.toLocaleString()}</span>
                 </div>
               ))}
               <hr className="my-4" />

@@ -5,10 +5,29 @@ import Service from '../models/serviceModel.js';
 // @access  Public
 const getService = async (req, res) => {
   try {
-    const services = await Service.find({active: true});
-    res.json(services);
+    const { page = 1, limit = 6, active } = req.query;
+    const query = {};
+
+    // Add active filter if provided
+    if (active === "true") {
+      query.active = true;
+    }
+console.log("query",query);
+console.log("active",active);
+    const services = await Service.find(query)
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    const totalPages = Math.ceil((await Service.countDocuments(query)) / limit);
+
+    res.json({
+      services,
+      totalPages,
+      currentPage: parseInt(page),
+    });
   } catch (error) {
-    res.status(404).json({ message: 'Services not found' });
+    console.error("Error fetching services:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -17,9 +36,20 @@ const getService = async (req, res) => {
 // @access  Public
 const createService = async (req, res) => {
   try {
-    const { name, description, price, document, images } = req.body;
+    const { name, description, price, document, images, priceType, requiresDimensions, requiresDocument } = req.body;
+    console.log("requiresDimensions",requiresDimensions);
+    console.log("requiresDocument",requiresDocument);
+    const service = new Service({ 
+      name, 
+      description, 
+      price, 
+      document, 
+      images,
+      priceType,
+      requiresDimensions,
+      requiresDocument
+    });
 
-    const service = new Service({ name, description, price, document, images }); // ✅ Add document and images fields
     const createdService = await service.save();
     res.status(201).json(createdService);
 
@@ -33,15 +63,19 @@ const createService = async (req, res) => {
 // @access  Public
 const updateService = async (req, res) => {
   try {
-    const { name, description, price, document, images } = req.body;
+    const { name, description, price, document, images, priceType, requiresDimensions, requiresDocument } = req.body;
     const service = await Service.findById(req.params.id);
 
     if (service) {
       service.name = name;
       service.description = description;
       service.price = price;
-      service.document = document; // ✅ Update document field
-      service.images = images; // ✅ Update images field
+      service.document = document;
+      service.images = images;
+      service.priceType = priceType;
+      service.requiresDimensions = requiresDimensions;
+      service.requiresDocument = requiresDocument;
+
       const updatedService = await service.save();
       res.json(updatedService);
     } else {
@@ -84,12 +118,18 @@ const getServiceById = async (req, res) => {
 };
 const getAllServices = async (req, res) => {
   try {
-    let { page = 1, limit = 6 } = req.query; // Default pagination
+    let { page = 1, limit = 6, active } = req.query; // Default pagination and active filter
     page = parseInt(page);
     limit = parseInt(limit);
 
-    const totalServices = await Service.countDocuments();
-    const services = await Service.find()
+    // Build query based on active filter
+    const query = {};
+    if (active === "true") {
+      query.active = true;
+    }
+
+    const totalServices = await Service.countDocuments(query);
+    const services = await Service.find(query)
       .skip((page - 1) * limit)
       .limit(limit);
 
