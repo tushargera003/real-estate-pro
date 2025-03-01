@@ -111,10 +111,8 @@ export default function App() {
 
   return (
     <CartProvider>
-      <Router>
-        <ToastContainer position="top-right" autoClose={3000} />
-        <AppContent isAdmin={isAdmin} />
-      </Router>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <AppContent isAdmin={isAdmin} />
     </CartProvider>
   );
 }
