@@ -121,7 +121,7 @@ const Services = () => {
             className={`px-4 py-2 rounded-md ${
               currentPage === index + 1
                 ? "bg-blue-700 text-white"
-                : "bg-gray-200 hover:bg-gray-300"
+                : "bg-gray-200 hover:bg-gray-400"
             }`}
           >
             {index + 1}
