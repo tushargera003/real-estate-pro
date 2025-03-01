@@ -20,7 +20,13 @@ connectDB();
 // Create Express app
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(
+    cors({
+      origin: "https://real-estate-pro-web.vercel.app", // Frontend URL allow karo
+      methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+      credentials: true, // Allow credentials (if needed)
+    })
+  );
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/services", serviceRoutes);
