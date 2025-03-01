@@ -21,10 +21,9 @@ connectDB();
 const app = express();
 app.use(express.json());
 app.use(cors({
-    origin: 'https://real-estate-pro-web.vercel.app',
-    methods: 'GET,POST,PUT,DELETE',
-    allowedHeaders: 'Content-Type,Authorization',
-    credentials: true
+    origin: "*", // Ya specific frontend domain: "https://real-estate-pro-web.vercel.app"
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type,Authorization"
 }));
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
@@ -44,4 +43,13 @@ const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
 
 // Handle client-side routing
-app.get("*", (req, res) => {res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));});// Start the serverconst PORT = process.env.PORT || 5000;app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// app.get("*", (req, res) => {res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));});// Start the serverconst PORT = process.env.PORT || 5000;app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+app.get("/", (req, res) => {
+    res.send("Hello from Vercel Backend!");
+});
+
+// Services API Route Example
+app.get("/api/services", (req, res) => {
+    res.json({ message: "Services fetched successfully!" });
+});
