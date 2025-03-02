@@ -1,6 +1,6 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom"; // Add useLocation
 import { motion } from "framer-motion";
 import {
   UserCircleIcon,
@@ -17,6 +17,7 @@ const Navbar = ({ isAdmin }) => {
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation(); // Get current location
   const [menuOpen, setMenuOpen] = useState(false);
 
   const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -26,6 +27,11 @@ const Navbar = ({ isAdmin }) => {
     dispatch(clearCart());
     localStorage.removeItem("token");
     navigate("/auth");
+  };
+
+  // Function to check if a link is active
+  const isActive = (path) => {
+    return location.pathname === path;
   };
 
   return (
@@ -39,7 +45,7 @@ const Navbar = ({ isAdmin }) => {
         {/* Logo with Gradient Animation */}
         <Link
           to="/"
-          className="text-2xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:from-purple-600 hover:to-blue-600 transition-all duration-500"
+          className="text-3xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:from-purple-600 hover:to-blue-600 transition-all duration-500 font-serif"
         >
           Real Estate Pro
         </Link>
@@ -59,11 +65,37 @@ const Navbar = ({ isAdmin }) => {
                     ? "/docspage"
                     : `/${item.toLowerCase().replace(/\s/g, "")}`
                 }
-                className="text-gray-700 hover:text-blue-600 hover:font-medium transition-all relative group"
+                className={`text-lg font-medium text-gray-700 hover:text-blue-600 transition-all relative group ${
+                  isActive(
+                    item === "About Us"
+                      ? "/about"
+                      : item === "Blogs"
+                      ? "/blogpage"
+                      : item === "Docs"
+                      ? "/docspage"
+                      : `/${item.toLowerCase().replace(/\s/g, "")}`
+                  )
+                    ? "text-blue-600 font-semibold"
+                    : ""
+                }`}
               >
                 {item}
                 {/* Underline Animation */}
-                <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+                <span
+                  className={`absolute left-0 bottom-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ${
+                    isActive(
+                      item === "About Us"
+                        ? "/about"
+                        : item === "Blogs"
+                        ? "/blogpage"
+                        : item === "Docs"
+                        ? "/docspage"
+                        : `/${item.toLowerCase().replace(/\s/g, "")}`
+                    )
+                      ? "w-full"
+                      : "group-hover:w-full"
+                  }`}
+                />
               </Link>
             )
           )}
@@ -127,7 +159,7 @@ const Navbar = ({ isAdmin }) => {
           ) : (
             <Link
               to="/auth"
-              className="text-gray-700 hover:text-blue-600 transition-all"
+              className="text-gray-700 hover:text-blue-600 transition-all text-lg font-medium"
             >
               Login
             </Link>
@@ -135,7 +167,7 @@ const Navbar = ({ isAdmin }) => {
           {isAdmin && (
             <Link
               to="/admin"
-              className="text-gray-700 hover:text-blue-600 transition-all"
+              className="text-gray-700 hover:text-blue-600 transition-all text-lg font-medium"
             >
               Dashboard
             </Link>
@@ -176,7 +208,19 @@ const Navbar = ({ isAdmin }) => {
                     ? "/docspage"
                     : `/${item.toLowerCase().replace(/\s/g, "")}`
                 }
-                className="text-gray-700 hover:text-blue-600 transition-all"
+                className={`text-lg font-medium text-gray-700 hover:text-blue-600 transition-all ${
+                  isActive(
+                    item === "About Us"
+                      ? "/about"
+                      : item === "Blogs"
+                      ? "/blogpage"
+                      : item === "Docs"
+                      ? "/docspage"
+                      : `/${item.toLowerCase().replace(/\s/g, "")}`
+                  )
+                    ? "text-blue-600 font-semibold"
+                    : ""
+                }`}
               >
                 {item}
               </Link>
