@@ -15,19 +15,11 @@ const ManageServices = () => {
     requiresDimensions: false,
     requiresDocument: false,
   });
-  // const [editService, setEditService] = useState({
-  //   name: "",
-  //   price: "",
-  //   description: "",
-  //   document: null,
-  //   priceType: "fixed", // Default value
-  //   requiresDimensions: false,
-  //   requiresDocument: false,
-  // });
   const [editService, setEditService] = useState(null); // Initialize as null
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const itemsPerPage = 5;
 
   // Handle File Change Function
@@ -204,6 +196,7 @@ const ManageServices = () => {
 
       await fetchServices(currentPage);
       setEditService(null);
+      setIsModalOpen(false); // Close modal after update
       toast.success("Service updated successfully!");
     } catch (err) {
       console.error("Error updating service:", err);
@@ -266,8 +259,20 @@ const ManageServices = () => {
     }
   };
 
+  // Open Edit Modal
+  const openEditModal = (service) => {
+    setEditService(service);
+    setIsModalOpen(true);
+  };
+
+  // Close Edit Modal
+  const closeEditModal = () => {
+    setEditService(null);
+    setIsModalOpen(false);
+  };
+
   return (
-    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-4 flex flex-col  w-full h-full ">
+    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-4 flex flex-col w-full h-full">
       <ToastContainer position="top-right" autoClose={3000} />
 
       {/* Header */}
@@ -493,7 +498,7 @@ const ManageServices = () => {
                         <motion.button
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          onClick={() => setEditService(service)}
+                          onClick={() => openEditModal(service)}
                           disabled={loading}
                           className="bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded hover:bg-yellow-500/30 transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed text-sm"
                         >
@@ -568,6 +573,157 @@ const ManageServices = () => {
           Next
         </motion.button>
       </motion.div>
+
+      {/* Edit Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 flex justify-center items-center z-50"
+            onClick={closeEditModal}
+          >
+            <motion.div
+              initial={{ y: -50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -50, opacity: 0 }}
+              className="bg-gray-800/90 backdrop-blur-lg p-6 rounded-lg shadow-lg w-full max-w-lg"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="text-xl font-semibold text-purple-300 mb-4">
+                Edit Service
+              </h2>
+
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  updateService();
+                }}
+              >
+                <div className="space-y-4">
+                  <input
+                    type="text"
+                    placeholder="Service Name"
+                    className="w-full p-2 rounded-lg bg-gray-700/50 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    value={editService?.name || ""}
+                    onChange={(e) =>
+                      setEditService({ ...editService, name: e.target.value })
+                    }
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Price"
+                    className="w-full p-2 rounded-lg bg-gray-700/50 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    value={editService?.price || ""}
+                    onChange={(e) =>
+                      setEditService({ ...editService, price: e.target.value })
+                    }
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Description"
+                    className="w-full p-2 rounded-lg bg-gray-700/50 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    value={editService?.description || ""}
+                    onChange={(e) =>
+                      setEditService({
+                        ...editService,
+                        description: e.target.value,
+                      })
+                    }
+                    required
+                  />
+                  <select
+                    className="w-full p-2 rounded-lg bg-gray-700/50 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    value={editService?.priceType || "fixed"}
+                    onChange={(e) =>
+                      setEditService({
+                        ...editService,
+                        priceType: e.target.value,
+                      })
+                    }
+                    required
+                  >
+                    <option value="fixed">Fixed Price</option>
+                    <option value="perUnit">Per Unit</option>
+                  </select>
+                  <label className="flex items-center text-gray-400">
+                    <input
+                      type="checkbox"
+                      className="mr-2"
+                      checked={editService?.requiresDimensions || false}
+                      onChange={(e) =>
+                        setEditService({
+                          ...editService,
+                          requiresDimensions: e.target.checked,
+                        })
+                      }
+                    />
+                    Requires Dimensions
+                  </label>
+                  <label className="flex items-center text-gray-400">
+                    <input
+                      type="checkbox"
+                      className="mr-2"
+                      checked={editService?.requiresDocument || false}
+                      onChange={(e) =>
+                        setEditService({
+                          ...editService,
+                          requiresDocument: e.target.checked,
+                        })
+                      }
+                    />
+                    Requires Document
+                  </label>
+
+                  {/* File Input for Document Upload */}
+                  <div className="flex items-center overflow-hidden">
+                    <input
+                      type="file"
+                      name="file"
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                          setEditService({ ...editService, document: file });
+                        }
+                      }}
+                      accept=".pdf,.jpg,.png"
+                      className="border border-gray-700 bg-gray-700/50 text-white p-1.5 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 w-full text-sm"
+                      required
+                    />
+                    {editService?.document && (
+                      <p className="text-xs text-gray-400 ml-2">
+                        Selected:{" "}
+                        {editService.document.name || "Existing document"}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="mt-6 flex justify-end space-x-4">
+                  <button
+                    type="button"
+                    onClick={closeEditModal}
+                    className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition duration-200"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className={`px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-500 transition duration-200 ${
+                      loading ? "cursor-not-allowed" : ""
+                    }`}
+                  >
+                    {loading ? "Saving..." : "Save Changes"}
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

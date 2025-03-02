@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Bar, Pie, Line } from "react-chartjs-2";
+import LoadingSpinner from "../LoadingSpinner";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -50,7 +51,7 @@ const AdminDashboard = () => {
     fetchAnalytics();
   }, []);
 
-  if (!analytics) return <p>Loading...</p>;
+  if (!analytics) return <LoadingSpinner />;
 
   // Default values to prevent errors
   const totalRevenue = analytics.revenue || 0;
