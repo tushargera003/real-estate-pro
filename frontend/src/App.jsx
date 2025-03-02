@@ -11,7 +11,7 @@ import { CartProvider } from "./context/CartContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { checkAdmin, checkUserAuth } from "./utils/auth";
-import LoadingSpinner from "./components/LoadingSpinner"; // Add a loading spinner component
+import LoadingSpinner from "./components/LoadingSpinner";
 
 // Lazy load components
 const Home = React.lazy(() => import("./pages/Home"));
@@ -105,17 +105,20 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if the user is authenticated and an admin on app load
     const verifyUser = async () => {
-      const isUserAuthenticated = await checkUserAuth();
-      setIsAuthenticated(isUserAuthenticated);
+      try {
+        const [isUserAuthenticated, isUserAdmin] = await Promise.all([
+          checkUserAuth(),
+          checkAdmin(),
+        ]);
 
-      if (isUserAuthenticated) {
-        const isUserAdmin = await checkAdmin();
+        setIsAuthenticated(isUserAuthenticated);
         setIsAdmin(isUserAdmin);
+      } catch (error) {
+        console.error("Error verifying user:", error);
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     };
 
     verifyUser();
