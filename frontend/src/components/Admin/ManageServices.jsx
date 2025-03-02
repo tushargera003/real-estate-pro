@@ -267,7 +267,7 @@ const ManageServices = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-4 flex flex-col max-h-[650px] min-h-[650px] w-full max-w-[1200px] mx-auto">
+    <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-4 flex flex-col  w-full h-full ">
       <ToastContainer position="top-right" autoClose={3000} />
 
       {/* Header */}

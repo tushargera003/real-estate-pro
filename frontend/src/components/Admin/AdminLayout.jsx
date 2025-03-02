@@ -77,7 +77,7 @@ const AdminLayout = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 ml-0 sm:ml-64 p-5 overflow-y-auto min-h-screen">
+      <main className="flex-1 ml-0 sm:ml-64 h-full">
         {/* Mobile Menu Button */}
         <button
           className="sm:hidden fixed top-4 left-4 bg-gray-900 text-white p-2 rounded-full shadow-lg z-50"
@@ -86,7 +86,7 @@ const AdminLayout = () => {
           <Menu size={24} />
         </button>
 
-        <div className="animate-fade-in">
+        <div className="animate-fade-in h-full">
           <Outlet />
         </div>
       </main>

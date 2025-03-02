@@ -65,7 +65,7 @@ const ManageUsers = () => {
 
   return (
     <motion.div
-      className="w-full bg-gradient-to-br from-gray-900 to-gray-800 p-8 flex flex-col items-center"
+      className="w-full bg-gradient-to-br from-gray-900 to-gray-800 p-8 flex flex-col items-center h-full"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -80,7 +80,7 @@ const ManageUsers = () => {
       </motion.h1>
 
       <motion.div
-        className="w-full max-w-4xl bg-gray-800/70 backdrop-blur-lg rounded-lg shadow-lg border border-gray-700/50 overflow-hidden max-h-[500px] min-h-[520px] overflow-y-auto"
+        className="w-full max-w-4xl bg-gray-800/70 backdrop-blur-lg rounded-lg shadow-lg border border-gray-700/50 overflow-hidden  overflow-y-auto"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}

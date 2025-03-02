@@ -5,7 +5,7 @@ import heroImage from "../assets/ypd.jpeg";
 
 const Hero = () => {
   return (
-    <section className="bg-gradient-to-r from-blue-900 to-blue-700 py-20 text-white">
+    <section className="bg-gradient-to-r from-blue-900 to-blue-700 py-20 text-white ">
       <div className="container grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         {/* Text Section */}
         <motion.div

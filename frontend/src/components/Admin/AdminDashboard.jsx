@@ -64,7 +64,7 @@ const AdminDashboard = () => {
   const ordersByDate = analytics.ordersByDate || {};
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-4 flex flex-col mx-auto max-h-[750px] max-w-[1000px] fixed ">
+    <div className="bg-gradient-to-br from-gray-900 to-gray-800 flex flex-col h-full">
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}

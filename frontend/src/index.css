@@ -4,7 +4,7 @@
 body {
     @apply bg-gray-100 text-black;
   }
-.container {
-    @apply max-w-7xl mx-auto px-4;
+  .container {
+    @apply px-4 max-w-full; /* Only padding left and right */
   }
   

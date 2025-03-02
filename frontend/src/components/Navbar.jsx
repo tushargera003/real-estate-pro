@@ -36,10 +36,10 @@ const Navbar = ({ isAdmin }) => {
       transition={{ duration: 0.4, ease: "easeOut" }}
     >
       <div className="container mx-auto flex justify-between items-center py-4 px-6">
-        {/* Logo */}
+        {/* Logo with Gradient Animation */}
         <Link
           to="/"
-          className="text-2xl font-extrabold text-gray-900 hover:text-blue-600 transition-all"
+          className="text-2xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent hover:from-purple-600 hover:to-blue-600 transition-all duration-500"
         >
           Real Estate Pro
         </Link>
@@ -59,9 +59,11 @@ const Navbar = ({ isAdmin }) => {
                     ? "/docspage"
                     : `/${item.toLowerCase().replace(/\s/g, "")}`
                 }
-                className="text-gray-700 hover:text-blue-600 hover:font-medium transition-all"
+                className="text-gray-700 hover:text-blue-600 hover:font-medium transition-all relative group"
               >
                 {item}
+                {/* Underline Animation */}
+                <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
               </Link>
             )
           )}
@@ -69,10 +71,11 @@ const Navbar = ({ isAdmin }) => {
 
         {/* Cart & User Profile */}
         <div className="flex items-center space-x-6">
+          {/* Cart Icon with Animation */}
           <Link to="/cart" className="relative group">
             <ShoppingCartIcon className="w-7 h-7 text-gray-700 group-hover:scale-110 group-hover:text-blue-600 transition-all" />
             {totalQuantity > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-1.5 py-0.5">
+              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full px-1.5 py-0.5 animate-pulse">
                 {totalQuantity}
               </span>
             )}

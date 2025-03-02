@@ -47,7 +47,7 @@ const ManageOrders = () => {
   const paginatedOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
 
   return (
-    <div className=" bg-gradient-to-br from-gray-900 to-gray-800 p-5 max-h-[650px] min-h-[650px] overflow-y-auto">
+    <div className=" bg-gradient-to-br from-gray-900 to-gray-800 p-5  overflow-y-auto h-full">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

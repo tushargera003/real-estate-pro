@@ -6,6 +6,8 @@ import { setUser } from "../redux/slices/userSlice";
 import { loginUser, registerUser } from "../api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FcGoogle } from "react-icons/fc";
+import { FaApple, FaFacebook } from "react-icons/fa";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -37,6 +39,14 @@ const Auth = () => {
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong");
     }
+  };
+
+  const handleForgotPassword = () => {
+    toast.info("Forgot Password feature will be available soon!");
+  };
+
+  const handleSocialLogin = (provider) => {
+    toast.info(`${provider} login will be available soon!`);
   };
 
   return (
@@ -137,20 +147,68 @@ const Auth = () => {
               required
               className="w-full p-3 rounded-lg bg-gray-100 text-gray-800 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
+            {isLogin && (
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 1.2 }}
+                className="text-right text-sm text-blue-600 hover:underline cursor-pointer"
+                onClick={handleForgotPassword}
+              >
+                Forgot Password?
+              </motion.p>
+            )}
             <motion.button
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.2 }}
+              transition={{ duration: 0.5, delay: 1.4 }}
               type="submit"
               className="w-full mt-4 p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-all duration-300"
             >
               {isLogin ? "Login" : "Sign Up"}
             </motion.button>
           </form>
+
+          {/* Social Logins */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 1.6 }}
+            className="mt-6"
+          >
+            <div className="flex items-center justify-center space-x-4">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handleSocialLogin("Google")}
+                className="p-2 bg-white border border-gray-300 rounded-full hover:bg-gray-100 transition-all"
+              >
+                <FcGoogle className="w-6 h-6" />
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handleSocialLogin("Apple")}
+                className="p-2 bg-black text-white rounded-full hover:bg-gray-900 transition-all"
+              >
+                <FaApple className="w-6 h-6" />
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handleSocialLogin("Facebook")}
+                className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-500 transition-all"
+              >
+                <FaFacebook className="w-6 h-6" />
+              </motion.button>
+            </div>
+          </motion.div>
+
+          {/* Toggle Login/Signup */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.4 }}
+            transition={{ duration: 0.5, delay: 1.8 }}
             className="text-gray-600 text-center mt-4"
           >
             {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
