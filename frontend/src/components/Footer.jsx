@@ -11,9 +11,9 @@ import {
 import { motion } from "framer-motion";
 
 const Footer = () => {
-  const phoneNumber = "+91700000000000";
-  const whatsappNumber = "9170000000000";
-  const email = "realestatepro@gmail.com";
+  const phoneNumber = "+917053371296";
+  const whatsappNumber = "917053371296";
+  const email = "tushargera006@gmail.com";
   const address = "Real Estate Pro Services";
 
   const [emailInput, setEmailInput] = useState("");

@@ -65,12 +65,12 @@ const ContactUs = () => {
           {
             title: "Phone",
             icon: <Phone size={32} />,
-            content: "+91 70000000000",
+            content: "+91 7053371296",
           },
           {
             title: "Email",
             icon: <Mail size={32} />,
-            content: "realestatepro@gmail.com",
+            content: "tushargera006@gmail.com",
           },
           {
             title: "Location",
